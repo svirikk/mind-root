@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mind Root — Functional mushroom supplements, Georgia</title>
 <meta name="description" content="Lion's Mane and Cordyceps extract capsules, 120 per bottle. Transparent labels, quality documents on request, delivery across Georgia.">
-<meta name="theme-color" content="#0a0e0b">
+<meta name="theme-color" content="#080b09">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Mind Root — Nature. In Your Daily Rhythm.">
-<meta property="og:description" content="Functional mushroom extracts for your everyday routine. Delivery across Georgia.">
+<meta property="og:description" content="Functional mushroom extracts for your everyday routine. Free delivery across Georgia.">
 <meta property="og:image" content="/assets/img/hero.jpg">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0e0b'/%3E%3Cpath d='M4 19 L12 8 L16 13 L20 9 L28 19' fill='none' stroke='%23e0a14a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M16 19 V28' stroke='%23e0a14a' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23080b09'/%3E%3Cpath d='M4 19 L12 8 L16 13 L20 9 L28 19' fill='none' stroke='%23d99b43' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M16 19 V28' stroke='%23d99b43' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Noto+Sans+Georgian:wght@400;600;700&family=Noto+Serif+Georgian:wght@500;600&display=swap" rel="stylesheet">
@@ -35,6 +35,7 @@
     </a>
     <nav id="nav" class="nav" aria-label="Main">
       <a href="#products" data-i18n="nav_products">Products</a>
+      <a href="#details-sec" data-i18n="d_title">Product details</a>
       <a href="#about" data-i18n="nav_about">About</a>
       <a href="#how" data-i18n="nav_how">How to order</a>
       <a href="#faq" data-i18n="nav_faq">FAQ</a>
@@ -43,10 +44,12 @@
       <div class="lang" role="group" data-i18n-attr="aria-label:lang_label" aria-label="Language">
         <button type="button" data-lang="en" aria-pressed="true">EN</button>
         <button type="button" data-lang="uk" aria-pressed="false">UA</button>
+        <button type="button" data-lang="ru" aria-pressed="false">RU</button>
         <button type="button" data-lang="ka" aria-pressed="false">KA</button>
       </div>
       <button class="cart-btn" id="openCart" type="button" data-i18n-attr="aria-label:cart_open" aria-label="Open cart">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 11H6.2L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-btn__label" data-i18n="cart_title">Order</span>
         <span class="cart-count" id="cartCount" hidden>0</span>
       </button>
       <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" data-i18n-attr="aria-label:menu" aria-label="Menu"><span></span><span></span></button>
@@ -55,125 +58,236 @@
 </header>
 
 <main id="main">
-  <!-- ========== HERO: full-bleed, edge to edge ========== -->
+  <!-- ========== 1. CINEMATIC HERO ========== -->
   <section class="hero" id="top">
     <div class="hero__bg">
       <picture>
         <source media="(max-width: 700px)" srcset="/assets/img/hero-m.jpg">
-        <img src="/assets/img/hero.jpg" alt="Mountain landscape at sunset with a Cordyceps mushroom growing from mossy ground" fetchpriority="high" decoding="async">
+        <img src="/assets/img/hero.jpg" alt="Mountain landscape at sunset with functional mushrooms" fetchpriority="high" decoding="async">
       </picture>
     </div>
     <div class="hero__in">
-      <div>
-        <p class="eyebrow">Mind Root · Georgia</p>
+      <div class="hero__copy">
+        <div class="eyebrow-row">
+          <span class="eyebrow">MIND ROOT · BATUMI, GEORGIA</span>
+          <span class="eyebrow-sep">·</span>
+          <span class="eyebrow-mono">120 CAPSULES / BOTTLE</span>
+        </div>
         <h1 data-i18n-html="hero_title">Nature. <em>In Your Daily Rhythm.</em></h1>
         <p class="hero__sub" data-i18n="hero_sub">Discover functional mushrooms for your everyday routine.</p>
         <div class="hero__cta">
           <a class="btn btn--primary" href="#products" data-i18n="hero_cta1">Explore Products</a>
-          <a class="btn btn--ghost" href="#about" data-i18n="hero_cta2">Discover Mind Root</a>
+          <button class="btn btn--ghost" type="button" data-quick-buy="dual" data-i18n-html="hero_tag">Dual Complex — both bottles, <b>128 ₾</b></button>
         </div>
         <ul class="trust">
           <li data-i18n="trust1">Transparent ingredients</li>
           <li data-i18n="trust2">Quality documents on request</li>
-          <li data-i18n="trust3">Delivery across Georgia</li>
+          <li data-i18n="trust3">Free delivery across Georgia</li>
         </ul>
       </div>
+
       <div class="stage" aria-label="Mind Root Lion's Mane and Cordyceps bottles">
-        <a class="stage__tag" href="#product-dual" data-i18n-html="hero_tag">Dual Complex — both bottles, <b>128 ₾</b></a>
-        <div class="bottle bottle--lg" data-bottle="mane"></div>
-        <div class="bottle bottle--lg" data-bottle="cord"></div>
+        <div class="stage__pedestal">
+          <a class="stage__tag" href="#card-dual" data-i18n-html="hero_tag">Dual Complex — both bottles, <b>128 ₾</b></a>
+          <div class="stage__bottles">
+            <div class="bottle bottle--lg" data-bottle="mane"></div>
+            <div class="bottle bottle--lg" data-bottle="cord"></div>
+          </div>
+          <div class="stage__specs">
+            <div><span>Hericium erinaceus</span><strong>10:1 · 1000 mg</strong></div>
+            <div><span>Cordyceps militaris</span><strong>8:1 · 1000 mg</strong></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ========== PRODUCTS ========== -->
+  <!-- ========== 2. PRODUCTS & BUNDLE SELECTION ========== -->
   <section class="section" id="products" aria-labelledby="products-h">
     <div class="wrap">
       <div class="section__head reveal">
+        <p class="eyebrow">APOTHECARY FORMULATIONS · 01 — 03</p>
         <h2 id="products-h" data-i18n="prod_title">Two extracts. One simple routine.</h2>
-        <p data-i18n="prod_sub">Each bottle holds 120 capsules. Add two or more bottles and 20% comes off automatically.</p>
+        <p data-i18n="prod_sub">Each bottle holds 120 capsules. Free delivery across Georgia on every order, plus 20% off when you add two or more bottles.</p>
       </div>
+
       <div class="cards">
+        <!-- 01: Lion's Mane -->
         <article class="card reveal" id="card-mane">
-          <div class="card__stage"><div class="bottle" data-bottle="mane" style="--bw:130px"></div></div>
-          <h3>Lion's Mane</h3>
-          <p class="desc" data-i18n="mane_desc">Hericium erinaceus fruiting-body extract (10:1).</p>
-          <div class="price"><strong data-price="unit">80 ₾</strong><small data-i18n="per_bottle">per bottle</small></div>
-          <div class="card__row">
-            <div class="stepper" role="group" data-i18n-attr="aria-label:qty" aria-label="Quantity"><button type="button" data-dec aria-label="−">−</button><output aria-live="polite">1</output><button type="button" data-inc aria-label="+">+</button></div>
-            <button class="btn btn--primary" type="button" data-add="mane" data-i18n="add_to_cart">Add to cart</button>
+          <div class="card__top">
+            <span class="card__index">01 / COGNITION &amp; FOCUS</span>
+            <span class="card__spec">10:1 · 120 CAPS</span>
           </div>
-          <a class="card__more" href="#product-mane" data-i18n="learn_more">Learn more</a>
-        </article>
-
-        <article class="card reveal" id="card-cord">
-          <div class="card__stage"><div class="bottle" data-bottle="cord" style="--bw:130px"></div></div>
-          <h3>Cordyceps</h3>
-          <p class="desc" data-i18n="cord_desc">Cordyceps militaris fruiting-body extract (8:1).</p>
-          <div class="price"><strong data-price="unit">80 ₾</strong><small data-i18n="per_bottle">per bottle</small></div>
-          <div class="card__row">
-            <div class="stepper" role="group" data-i18n-attr="aria-label:qty" aria-label="Quantity"><button type="button" data-dec aria-label="−">−</button><output aria-live="polite">1</output><button type="button" data-inc aria-label="+">+</button></div>
-            <button class="btn btn--primary" type="button" data-add="cord" data-i18n="add_to_cart">Add to cart</button>
-          </div>
-          <a class="card__more" href="#product-cord" data-i18n="learn_more">Learn more</a>
-        </article>
-
-        <article class="card card--bundle reveal" id="card-dual">
-          <span class="card__badge" data-i18n="bundle_badge">Bundle · −20%</span>
           <div class="card__stage">
-            <div class="bottle" data-bottle="mane" style="--bw:104px"></div>
-            <div class="bottle" data-bottle="cord" style="--bw:104px"></div>
+            <div class="bottle" data-bottle="mane" style="--bw:132px"></div>
           </div>
-          <h3 data-i18n="dual_name">Dual Complex</h3>
-          <p class="desc"><span data-i18n="dual_desc">One Lion's Mane and one Cordyceps bottle, together.</span> <span class="note" data-i18n="bundle_note"></span></p>
-          <div class="price"><strong data-price="dualDeal">128 ₾</strong><s data-price="dualList">160 ₾</s></div>
-          <div class="card__row">
-            <div class="stepper" role="group" data-i18n-attr="aria-label:qty" aria-label="Quantity"><button type="button" data-dec aria-label="−">−</button><output aria-live="polite">1</output><button type="button" data-inc aria-label="+">+</button></div>
-            <button class="btn btn--primary" type="button" data-add="dual" data-i18n="add_to_cart">Add to cart</button>
+          <div class="card__info">
+            <h3>Lion's Mane</h3>
+            <p class="card__latin">Hericium erinaceus · Fruiting body · 1000 mg</p>
+            <p class="desc" data-i18n="mane_desc">Hericium erinaceus fruiting-body extract (10:1). A functional mushroom traditionally valued for focus and mental clarity.</p>
+            <div class="card__ship" data-i18n="free_ship_card">🚚 Free delivery across Georgia</div>
           </div>
-          <a class="card__more" href="#product-dual" data-i18n="learn_more">Learn more</a>
+          <div class="card__footer">
+            <div class="price">
+              <strong data-price="unit">80 ₾</strong>
+              <small data-i18n="per_bottle">per bottle</small>
+            </div>
+            <div class="card__row">
+              <div class="stepper" role="group" data-i18n-attr="aria-label:qty" aria-label="Quantity">
+                <button type="button" data-dec aria-label="−">−</button>
+                <output aria-live="polite">1</output>
+                <button type="button" data-inc aria-label="+">+</button>
+              </div>
+              <button class="btn btn--primary" type="button" data-add="mane" data-i18n="add_to_cart">Add to cart</button>
+            </div>
+            <div class="card__subactions">
+              <button class="link-btn" type="button" data-quick-buy="mane" data-i18n="cart_checkout">Checkout</button>
+              <a class="card__more" href="#product-mane" data-i18n="learn_more">Learn more</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 02: Cordyceps -->
+        <article class="card reveal" id="card-cord">
+          <div class="card__top">
+            <span class="card__index">02 / ENERGY &amp; STAMINA</span>
+            <span class="card__spec">8:1 · 120 CAPS</span>
+          </div>
+          <div class="card__stage">
+            <div class="bottle" data-bottle="cord" style="--bw:132px"></div>
+          </div>
+          <div class="card__info">
+            <h3>Cordyceps</h3>
+            <p class="card__latin">Cordyceps militaris · Fruiting body · 1000 mg</p>
+            <p class="desc" data-i18n="cord_desc">Cordyceps militaris fruiting-body extract (8:1). A traditional functional mushroom valued for energy and stamina.</p>
+            <div class="card__ship" data-i18n="free_ship_card">🚚 Free delivery across Georgia</div>
+          </div>
+          <div class="card__footer">
+            <div class="price">
+              <strong data-price="unit">80 ₾</strong>
+              <small data-i18n="per_bottle">per bottle</small>
+            </div>
+            <div class="card__row">
+              <div class="stepper" role="group" data-i18n-attr="aria-label:qty" aria-label="Quantity">
+                <button type="button" data-dec aria-label="−">−</button>
+                <output aria-live="polite">1</output>
+                <button type="button" data-inc aria-label="+">+</button>
+              </div>
+              <button class="btn btn--primary" type="button" data-add="cord" data-i18n="add_to_cart">Add to cart</button>
+            </div>
+            <div class="card__subactions">
+              <button class="link-btn" type="button" data-quick-buy="cord" data-i18n="cart_checkout">Checkout</button>
+              <a class="card__more" href="#product-cord" data-i18n="learn_more">Learn more</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 03: Dual Complex (Featured Flagship) -->
+        <article class="card card--bundle reveal" id="card-dual">
+          <div class="card__top">
+            <span class="card__index">03 / COMPLETE DAILY RITUAL</span>
+            <span class="card__badge" data-i18n="bundle_badge">Bundle · −20%</span>
+          </div>
+          <div class="card__stage card__stage--dual">
+            <div class="bottle" data-bottle="mane" style="--bw:112px"></div>
+            <div class="bottle" data-bottle="cord" style="--bw:112px"></div>
+          </div>
+          <div class="card__info">
+            <h3 data-i18n="dual_name">Dual Complex</h3>
+            <p class="card__latin">2 Bottles · 240 Capsules Total · −20% Off</p>
+            <p class="desc">
+              <span data-i18n="dual_desc">One Lion's Mane and one Cordyceps bottle, together.</span>
+              <span class="note" style="display:block;margin-top:6px" data-i18n="bundle_note">Counts as two bottles. The 20% is applied once, never twice.</span>
+            </p>
+            <div class="card__ship" data-i18n="free_ship_card">🚚 Free delivery across Georgia</div>
+          </div>
+          <div class="card__footer">
+            <div class="price">
+              <strong data-price="dualDeal">128 ₾</strong>
+              <s data-price="dualList">160 ₾</s>
+              <small data-i18n="cart_set_of">2 bottles</small>
+            </div>
+            <div class="card__row">
+              <div class="stepper" role="group" data-i18n-attr="aria-label:qty" aria-label="Quantity">
+                <button type="button" data-dec aria-label="−">−</button>
+                <output aria-live="polite">1</output>
+                <button type="button" data-inc aria-label="+">+</button>
+              </div>
+              <button class="btn btn--primary" type="button" data-add="dual" data-i18n="add_to_cart">Add to cart</button>
+            </div>
+            <div class="card__subactions">
+              <button class="link-btn" type="button" data-quick-buy="dual" data-i18n="cart_checkout">Checkout</button>
+              <a class="card__more" href="#product-dual" data-i18n="learn_more">Learn more</a>
+            </div>
+          </div>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- ========== PRODUCT DETAILS (rendered from config + i18n) ========== -->
-  <section class="section details" aria-labelledby="details-h">
+  <!-- ========== 3. PRODUCT DETAILS & SUPPLEMENT FACTS ========== -->
+  <section class="section details" id="details-sec" aria-labelledby="details-h">
     <div class="wrap">
-      <div class="section__head reveal"><h2 id="details-h" data-i18n="d_title">Product details</h2></div>
+      <div class="section__head reveal">
+        <p class="eyebrow">RADICAL TRANSPARENCY · SUPPLEMENT FACTS</p>
+        <h2 id="details-h" data-i18n="d_title">Product details</h2>
+      </div>
       <div id="detailsRoot"></div>
     </div>
   </section>
 
-  <!-- ========== ABOUT ========== -->
+  <!-- ========== 4. BRAND PHILOSOPHY (CAUCASUS EDITORIAL) ========== -->
   <section class="about" id="about" aria-labelledby="about-h">
-    <div class="about__bg"><img src="/assets/img/about.jpg" alt="Cordyceps mushrooms in a misty mountain landscape" loading="lazy" decoding="async"></div>
+    <div class="about__bg">
+      <img src="/assets/img/about.jpg" alt="Cordyceps mushrooms in a misty mountain landscape" loading="lazy" decoding="async">
+    </div>
     <div class="wrap">
-      <div class="section__head reveal" style="max-width:34em">
+      <div class="about__card reveal">
+        <p class="eyebrow">PHILOSOPHY · MIND ROOT GEORGIA</p>
         <h2 id="about-h" data-i18n="about_title">Rooted in nature. Built on transparency.</h2>
-        <p data-i18n="about_p1"></p><p data-i18n="about_p2"></p><p data-i18n="about_p3"></p>
+        <div class="about__copy">
+          <p data-i18n="about_p1"></p>
+          <p data-i18n="about_p2"></p>
+          <p data-i18n="about_p3"></p>
+        </div>
+        <div class="about__actions">
+          <a class="btn btn--primary" href="#products" data-i18n="hero_cta1">Explore Products</a>
+          <button class="btn btn--ghost" type="button" id="openCartAbout" data-i18n="cart_open">Open cart</button>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ========== HOW TO ORDER ========== -->
+  <!-- ========== 5. HOW TO ORDER ========== -->
   <section class="section" id="how" aria-labelledby="how-h">
     <div class="wrap">
-      <div class="section__head reveal"><h2 id="how-h" data-i18n="how_title">How to order</h2></div>
+      <div class="section__head reveal">
+        <p class="eyebrow">SIMPLE PROCESS · 1–3 DAYS ACROSS GEORGIA</p>
+        <h2 id="how-h" data-i18n="how_title">How to order</h2>
+      </div>
       <ol class="steps" id="stepsRoot"></ol>
-      <p class="note" data-i18n="how_note"></p>
+      <div class="how-bar reveal">
+        <p class="note" data-i18n="how_note"></p>
+        <button class="btn btn--primary" type="button" data-quick-buy="dual" data-i18n="cart_checkout">Checkout</button>
+      </div>
     </div>
   </section>
 
-  <!-- ========== FAQ ========== -->
+  <!-- ========== 6. FAQ ========== -->
   <section class="section" id="faq" aria-labelledby="faq-h" style="padding-top:0">
     <div class="wrap">
-      <div class="section__head reveal"><h2 id="faq-h" data-i18n="faq_title">Frequently asked questions</h2></div>
-      <div class="faq" id="faqRoot"></div>
+      <div class="faq-layout">
+        <div class="section__head reveal">
+          <p class="eyebrow">KNOWLEDGE BASE</p>
+          <h2 id="faq-h" data-i18n="faq_title">Frequently asked questions</h2>
+        </div>
+        <div class="faq" id="faqRoot"></div>
+      </div>
     </div>
   </section>
 </main>
 
+<!-- ========== 7. MINIMAL EDITORIAL FOOTER ========== -->
 <footer class="site-footer">
   <div class="wrap">
     <div class="foot">
@@ -186,7 +300,11 @@
       </div>
       <div>
         <h4 data-i18n="ft_products">Products</h4>
-        <ul><li><a href="#product-mane">Lion's Mane</a></li><li><a href="#product-cord">Cordyceps</a></li><li><a href="#product-dual" data-i18n="dual_name">Dual Complex</a></li></ul>
+        <ul>
+          <li><a href="#product-mane">Lion's Mane</a></li>
+          <li><a href="#product-cord">Cordyceps</a></li>
+          <li><a href="#product-dual" data-i18n="dual_name">Dual Complex</a></li>
+        </ul>
       </div>
       <div>
         <h4 data-i18n="ft_contact">Contact</h4>
@@ -202,9 +320,26 @@
         </ul>
       </div>
     </div>
-    <div class="foot__legal"><p data-i18n="ft_disclaimer"></p><p data-i18n="ft_rights"></p></div>
+    <div class="foot__legal">
+      <p data-i18n="ft_disclaimer"></p>
+      <p data-i18n="ft_rights"></p>
+    </div>
   </div>
 </footer>
+
+<!-- Floating sticky bar for mobile/desktop when cart has items -->
+<div class="sticky-cart" id="stickyCart" hidden>
+  <div class="sticky-cart__in">
+    <div class="sticky-cart__meta">
+      <strong id="stickyCount">0</strong>
+      <span id="stickyTotal">0 ₾</span>
+    </div>
+    <div class="sticky-cart__btns">
+      <button class="btn btn--ghost btn--sm" type="button" data-open-cart-view="cart" data-i18n="cart_title">Your order</button>
+      <button class="btn btn--primary btn--sm" type="button" data-open-cart-view="checkout" data-i18n="cart_checkout">Checkout</button>
+    </div>
+  </div>
+</div>
 
 <!-- ========== CART + CHECKOUT DRAWER ========== -->
 <dialog id="cartDialog" class="drawer" aria-labelledby="cartTitle">
@@ -222,15 +357,53 @@
     <div class="drawer__body">
       <h3 style="font-size:22px;margin-bottom:16px" data-i18n="f_title">Delivery details</h3>
       <div class="form">
-        <div class="field"><label for="f-name" data-i18n="f_name">Full name</label><input id="f-name" name="name" autocomplete="name" required aria-describedby="err-name"><div class="err" id="err-name" role="alert"></div></div>
-        <div class="field"><label for="f-phone" data-i18n="f_phone">Phone number</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+995 5XX XX XX XX" required aria-describedby="err-phone"><div class="err" id="err-phone" role="alert"></div></div>
-        <div class="field"><label for="f-city" data-i18n="f_city">City</label><input id="f-city" name="city" autocomplete="address-level2" required aria-describedby="err-city"><div class="err" id="err-city" role="alert"></div></div>
-        <div class="field"><label for="f-address" data-i18n="f_address">Full delivery address</label><input id="f-address" name="address" autocomplete="street-address" required aria-describedby="err-address"><div class="err" id="err-address" role="alert"></div></div>
-        <div class="field"><label for="f-method" data-i18n="f_method">Preferred contact (optional)</label>
-          <select id="f-method" name="contact_method"><option value="" data-i18n="f_method_none">No preference</option><option value="telegram">Telegram</option><option value="whatsapp">WhatsApp</option><option value="instagram">Instagram</option></select></div>
-        <div class="field"><label for="f-handle" data-i18n="f_handle">Username or contact (optional)</label><input id="f-handle" name="contact_handle" maxlength="60" autocomplete="off"></div>
+        <div class="field">
+          <label for="f-name" data-i18n="f_name">Full name</label>
+          <input id="f-name" name="name" autocomplete="name" required aria-describedby="err-name">
+          <div class="err" id="err-name" role="alert"></div>
+        </div>
+        <div class="field">
+          <label for="f-phone" data-i18n="f_phone">Phone number</label>
+          <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+995 5XX XX XX XX" required aria-describedby="err-phone">
+          <div class="err" id="err-phone" role="alert"></div>
+        </div>
+        <div class="field">
+          <label for="f-email" data-i18n="f_email">Email address</label>
+          <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" required aria-describedby="note-email err-email">
+          <p class="field__note" id="note-email" data-i18n="f_email_note">No spam or marketing — we only email you about your order or parcel pickup if your phone or messengers are unreachable.</p>
+          <div class="err" id="err-email" role="alert"></div>
+        </div>
+        <div class="field">
+          <label for="f-city" data-i18n="f_city">City</label>
+          <input id="f-city" name="city" autocomplete="address-level2" required aria-describedby="err-city">
+          <div class="err" id="err-city" role="alert"></div>
+        </div>
+        <div class="field">
+          <label for="f-address" data-i18n="f_address">Full delivery address</label>
+          <input id="f-address" name="address" autocomplete="street-address" required aria-describedby="err-address">
+          <div class="err" id="err-address" role="alert"></div>
+        </div>
+        <div class="field">
+          <label for="f-method" data-i18n="f_method">Preferred contact (optional)</label>
+          <select id="f-method" name="contact_method">
+            <option value="" data-i18n="f_method_none">No preference</option>
+            <option value="telegram">Telegram</option>
+            <option value="whatsapp">WhatsApp</option>
+            <option value="instagram">Instagram</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-handle" data-i18n="f_handle">Username or contact (optional)</label>
+          <input id="f-handle" name="contact_handle" maxlength="60" placeholder="@username" autocomplete="off">
+        </div>
         <input class="hp" id="f-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <div><label class="check"><input type="checkbox" id="f-consent" aria-describedby="err-consent"><span id="consentText"></span></label><div class="err" id="err-consent" role="alert"></div></div>
+        <div>
+          <label class="check">
+            <input type="checkbox" id="f-consent" aria-describedby="err-consent">
+            <span id="consentText"></span>
+          </label>
+          <div class="err" id="err-consent" role="alert"></div>
+        </div>
         <div class="alert alert--err" id="formAlert" role="alert" hidden></div>
       </div>
     </div>
