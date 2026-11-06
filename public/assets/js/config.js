@@ -1,12 +1,12 @@
 /* ==========================================================================
    Mind Root — EDIT ME. Everything the owner is likely to change lives here
-   (contacts, delivery, quality-document links, label facts). Copy and the
-   three languages live in i18n.js. Prices live in pricing.js (and pricing.py
-   on the server — change both together, then run the tests).
-   Values in [square brackets] are placeholders: fill them in, or leave them
-   and the site shows them as visible "to be completed" text.
+   (Google Analytics ID, contacts, delivery, quality-document links, label facts).
    ========================================================================== */
 window.SITE = {
+  // Paste your Google Analytics 4 Measurement ID here (e.g. "G-XXXXXXXXXX").
+  // Leave "" to disable until you create your GA4 property.
+  gaId: "",
+
   contact: {
     email: "[hello@your-domain.ge]",
     phone: "[+995 5XX XX XX XX]",
@@ -17,9 +17,7 @@ window.SITE = {
     place: "Batumi, Georgia"
   },
   delivery: { feeGel: 0, daysMin: 1, daysMax: 3 },   // free, 1–3 days after payment is confirmed
-  // Links to PDF documents. Leave "" to show "available on request".
   docs: { coaMane: "", coaCord: "", halal: "" },
-  // Facts copied from the real label (English, as printed).
   label: {
     capsules: 120,
     servingSize: "2 capsules",
