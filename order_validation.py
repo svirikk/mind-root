@@ -6,6 +6,7 @@ from pricing import calculate_cart, BOTTLES_PER_ITEM
 from texts import LANGS
 
 PHONE_RE = re.compile(r"^\+?[0-9][0-9 ()\-]{5,18}$")
+EMAIL_RE = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]{2,}$")
 CONTACT_METHODS = {"", "telegram", "whatsapp", "instagram"}
 MAX_QTY_PER_LINE = 20
 MAX_BOTTLES = 40
@@ -51,6 +52,10 @@ def validate_order(payload: dict) -> dict:
     if not PHONE_RE.match(phone):
         raise OrderError("bad phone")
 
+    email = str(payload.get("email", "")).strip()
+    if not email or len(email) > 120 or not EMAIL_RE.match(email):
+        raise OrderError("bad email")
+
     method = str(payload.get("contact_method") or "").strip().lower()
     if method not in CONTACT_METHODS:
         raise OrderError("bad contact method")
@@ -62,7 +67,7 @@ def validate_order(payload: dict) -> dict:
     lang = payload.get("lang")
     return {
         "items": items,
-        "name": name, "phone": phone, "city": city, "address": address,
+        "name": name, "phone": phone, "email": email, "city": city, "address": address,
         "contact_method": method, "contact_handle": handle,
         "lang": lang if lang in LANGS else "en",
         "totals": totals,

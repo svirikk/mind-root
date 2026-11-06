@@ -6,6 +6,7 @@ Everything lives in a couple of JSON files there.
 """
 import json
 import os
+import secrets
 import threading
 from datetime import datetime, timezone
 
@@ -53,41 +54,45 @@ def set_user_lang(user_id: int, lang: str):
 
 # ---------- orders ----------
 
-def _next_order_id():
-    with _lock:
-        counter = _read(COUNTER_FILE, {"n": 0})
-        counter["n"] += 1
-        _write(COUNTER_FILE, counter)
-        return counter["n"]
+def _generate_order_id(existing_orders: dict) -> str:
+    """Generates a non-sequential alphanumeric order ID like MR-4829."""
+    for _ in range(100):
+        code = f"MR-{1000 + secrets.randbelow(9000)}"
+        if code not in existing_orders:
+            return code
+    return f"MR-{10000 + secrets.randbelow(90000)}"
 
 
 def create_order(user_id: int, chat_id: int, lang: str, product: str, details_raw: str,
-                  source: str = "telegram", extra: dict | None = None) -> dict:
+                 source: str = "telegram", extra: dict | None = None) -> dict:
     """source: 'telegram' | 'instagram' | 'website' — which admin bot this order belongs to."""
-    order_id = _next_order_id()
-    order = {
-        "id": order_id,
-        "source": source,
-        "user_id": user_id,
-        "chat_id": chat_id,  # buyer's Telegram chat id — only meaningful when source == 'telegram'
-        "lang": lang,
-        "product": product,
-        "details_raw": details_raw,
-        "status": "awaiting_payment",  # awaiting_payment -> awaiting_review -> paid
-        "screenshot_file_id": None,
-        "admin_order_msg_id": None,  # message id of the admin card, for replies/threading
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    }
-    if extra:
-        order.update(extra)  # e.g. qty, total for website orders
     with _lock:
         orders = _read(ORDERS_FILE, {})
+        order_id = _generate_order_id(orders)
+        order = {
+            "id": order_id,
+            "source": source,
+            "user_id": user_id,
+            "chat_id": chat_id,
+            "lang": lang,
+            "product": product,
+            "details_raw": details_raw,
+            "status": "awaiting_payment",  # awaiting_payment -> awaiting_review -> paid
+            "payment_method": None,        # bank | crypto
+            "screenshot_file_id": None,
+            "admin_order_msg_id": None,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }
+        if extra:
+            order.update(extra)
         orders[str(order_id)] = order
         _write(ORDERS_FILE, orders)
     return order
 
 
 def get_order(order_id) -> dict | None:
+    if not order_id:
+        return None
     orders = _read(ORDERS_FILE, {})
     return orders.get(str(order_id))
 
@@ -104,8 +109,6 @@ def update_order(order_id, **fields):
 
 
 # ---------- relay: links an admin-chat message id to the buyer chat it came from ----------
-# Needed because buyer_bot and admin_bot are separate processes/tokens — this file is
-# the only thing they share, so a reply on the admin side can find its way back.
 
 def save_relay(source: str, admin_message_id: int, buyer_chat_id: int):
     with _lock:
@@ -120,7 +123,6 @@ def get_relay(source: str, admin_message_id: int):
 
 
 def stats_by_source() -> dict:
-    """{'telegram': {'total': 12, 'paid': 7}, 'instagram': {...}, 'website': {...}}"""
     orders = _read(ORDERS_FILE, {})
     out = {}
     for o in orders.values():
@@ -133,12 +135,12 @@ def stats_by_source() -> dict:
 
 
 def find_latest_open_order_for_user(user_id: int) -> dict | None:
-    """Latest order of this user that's not yet marked paid - used to attach a screenshot to it."""
+    """Latest order of this user that's not yet marked paid - sorted by created_at timestamp."""
     orders = _read(ORDERS_FILE, {})
-    candidates = [o for o in orders.values() if o["user_id"] == user_id and o["status"] != "paid"]
+    candidates = [o for o in orders.values() if o.get("user_id") == user_id and o.get("status") != "paid"]
     if not candidates:
         return None
-    return sorted(candidates, key=lambda o: o["id"])[-1]
+    return sorted(candidates, key=lambda o: o.get("created_at", ""))[-1]
 
 
 def order_total(order: dict) -> int:
@@ -149,6 +151,6 @@ def order_total(order: dict) -> int:
     return PRODUCTS[order["product"]]["price"]
 
 
-def link_buyer(order_id: int, user_id: int, chat_id: int, lang: str):
-    """Bind a website order to the buyer's Telegram chat (via the /start order_<id> deep link)."""
+def link_buyer(order_id: str, user_id: int, chat_id: int, lang: str):
+    """Bind a website order to the buyer's Telegram chat (via the /start order_<id>_<token> deep link)."""
     return update_order(order_id, user_id=user_id, chat_id=chat_id, lang=lang)

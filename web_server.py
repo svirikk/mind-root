@@ -1,20 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Web server for the Mind Root site.
-
-  GET  /              -> public/index.html
-  GET  /legal         -> public/legal.html   (privacy / terms / returns — owner must complete)
-  GET  /assets/...    -> static files
-  POST /api/order     -> validates the cart, prices it ON THE SERVER, saves the order,
-                         pushes a card to the Website admin bot, answers honestly
-                         whether Telegram really accepted it ("notified")
-  GET  /healthz       -> health check
-
-Env (all optional — without the Telegram token the site still works and orders are saved;
-the customer is simply told the owner has not been notified yet):
-  ADMIN_WEB_BOT_TOKEN, ADMIN_WEB_CHAT_ID (default: ADMIN_TG_CHAT_ID), PAYMENT_REQUISITES,
-  BUYER_BOT_USERNAME (Bogdan, no @), OWNER_TELEGRAM (your @username, no @, used as a fallback link),
-  PORT (set by Railway), DATA_DIR
 """
 import html
 import logging
@@ -50,7 +36,6 @@ ITEM_NAMES = {
     "dual": "Dual Complex (Lion's Mane + Cordyceps)",
 }
 
-# very small in-memory rate limit: max 5 orders / 10 minutes per IP
 _hits: dict[str, deque] = defaultdict(deque)
 
 
@@ -96,11 +81,10 @@ async def handle_health(request):
 
 
 def esc(value) -> str:
-    """Escape for Telegram HTML parse mode: only & < > need it (quotes must stay as-is)."""
     return html.escape(str(value), quote=False)
 
 
-def build_card(order_id: int, o: dict) -> str:
+def build_card(order_id: str, o: dict) -> str:
     t = o["totals"]
     lines = "\n".join(f"• {esc(ITEM_NAMES[i['id']])} × {i['qty']}" for i in o["items"])
     contact = ""
@@ -108,11 +92,11 @@ def build_card(order_id: int, o: dict) -> str:
         contact = f"\n💬 {esc(o['contact_method'] or '-')}: {esc(o['contact_handle'] or '-')}"
     discount = f"\nDiscount (20%): −{t['discount']} ₾" if t["discount"] else ""
     return (
-        f"🌐 <b>Order #{order_id}</b> (website)\n\n{lines}\n\n"
+        f"🌐 <b>Order #{esc(order_id)}</b> (website)\n\n{lines}\n\n"
         f"Subtotal: {t['subtotal']} ₾{discount}\n<b>Total: {t['total']} ₾</b>\n\n"
-        f"👤 {esc(o['name'])}\n📞 {esc(o['phone'])}\n"
+        f"👤 {esc(o['name'])}\n📞 {esc(o['phone'])}\n✉️ {esc(o['email'])}\n"
         f"🏙 {esc(o['city'])}\n🏠 {esc(o['address'])}{contact}\n"
-        f"Lang: {o['lang']}\n\nStatus: <i>awaiting payment</i>"
+        f"Lang: {o['lang']}\n\nStatus: <i>awaiting payment (in bot)</i>"
     )
 
 
@@ -122,9 +106,8 @@ async def handle_order(request: web.Request) -> web.Response:
     except Exception:
         return web.json_response({"ok": False, "error": "bad json"}, status=400)
 
-    # honeypot: real users never fill this hidden field; bots do. Pretend success, store nothing.
     if isinstance(payload, dict) and payload.get("website"):
-        return web.json_response({"ok": True, "order_id": 0, "notified": False, "totals": {},
+        return web.json_response({"ok": True, "order_id": "MR-0000", "notified": False, "totals": {},
                                   "requisites": "", "bot_link": "", "owner_telegram": ""})
 
     if rate_limited(client_ip(request)):
@@ -135,11 +118,11 @@ async def handle_order(request: web.Request) -> web.Response:
     except OrderError as e:
         return web.json_response({"ok": False, "error": str(e)}, status=400)
 
-    link_token = secrets.token_urlsafe(6).replace("-", "a").replace("_", "b")  # [A-Za-z0-9] only
-    details = f"{o['name']}\n{o['phone']}\n{o['city']}, {o['address']}"
+    link_token = secrets.token_urlsafe(6).replace("-", "a").replace("_", "b")
+    details = f"{o['name']}\n{o['phone']}\n{o['email']}\n{o['city']}, {o['address']}"
     order = storage.create_order(
         user_id=0,
-        chat_id=0,  # becomes the buyer's chat id if they tap "Send receipt in Telegram"
+        chat_id=0,
         lang=o["lang"],
         product="cart",
         details_raw=details,
@@ -150,11 +133,12 @@ async def handle_order(request: web.Request) -> web.Response:
             "discount": o["totals"]["discount"],
             "total": o["totals"]["total"],
             "link_token": link_token,
-            "customer": {k: o[k] for k in ("name", "phone", "city", "address", "contact_method", "contact_handle")},
+            "customer": {
+                k: o[k] for k in ("name", "phone", "email", "city", "address", "contact_method", "contact_handle")
+            },
         },
     )
 
-    # Telegram push. `notified` is True ONLY if Telegram actually accepted the message.
     notified = False
     admin_bot = request.app.get("admin_bot")
     if admin_bot and ADMIN_WEB_CHAT_ID:

@@ -2,12 +2,8 @@
 """
 Shared logic for admin bots that track orders from a channel with NO live Telegram
 chat to the buyer (Instagram DMs, or the website before it's wired up to a bot).
-You log orders yourself; the bot tracks status and hands you ready-to-copy texts
-instead of auto-messaging anyone.
-
-Used by admin_bot_instagram.py and admin_bot_website.py — each just imports
-`build_router(source)` and runs its own Bot/Dispatcher with its own token.
 """
+import html
 from aiogram import Router, F
 from aiogram.filters import Command, CommandStart
 from aiogram.fsm.context import FSMContext
@@ -29,11 +25,11 @@ def product_choice_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="🧠 Lion's Mane — 80₾", callback_data="newprod:mane")],
         [InlineKeyboardButton(text="⚡ Cordyceps — 80₾", callback_data="newprod:cord")],
-        [InlineKeyboardButton(text="🍄 Bundle — 130₾", callback_data="newprod:bundle")],
+        [InlineKeyboardButton(text="🍄 Bundle — 128₾", callback_data="newprod:bundle")],
     ])
 
 
-def manual_order_keyboard(order_id: int) -> InlineKeyboardMarkup:
+def manual_order_keyboard(order_id: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(text="✅ Оплачено", callback_data=f"m_paid:{order_id}"),
         InlineKeyboardButton(text="📋 Текст нагадування", callback_data=f"m_remind:{order_id}"),
@@ -41,7 +37,6 @@ def manual_order_keyboard(order_id: int) -> InlineKeyboardMarkup:
 
 
 def build_router(source: str) -> Router:
-    """source: 'instagram' or 'website'"""
     router = Router()
     icon = SOURCE_ICON.get(source, "•")
 
@@ -59,11 +54,11 @@ def build_router(source: str) -> Router:
         if not stats:
             await message.answer("No orders yet.")
             return
-        lines = ["📊 *Orders by channel:*\n"]
+        lines = ["📊 <b>Orders by channel:</b>\n"]
         icons = {"telegram": "📱", "instagram": "📸", "website": "🌐"}
         for src, data in sorted(stats.items(), key=lambda kv: -kv[1]["total"]):
-            lines.append(f"{icons.get(src, '•')} {src}: {data['total']} total, {data['paid']} paid")
-        await message.answer("\n".join(lines), parse_mode="Markdown")
+            lines.append(f"{icons.get(src, '•')} {html.escape(src)}: {data['total']} total, {data['paid']} paid")
+        await message.answer("\n".join(lines), parse_mode="HTML")
 
     @router.message(Command("new"))
     async def cmd_new(message: Message, state: FSMContext):
@@ -78,7 +73,7 @@ def build_router(source: str) -> Router:
         await callback.answer()
         await callback.message.edit_text(
             "Got it. Now send me the buyer's details in one message "
-            "(name, phone/Instagram handle, address if needed):"
+            "(name, phone, email, Instagram handle, address):"
         )
 
     @router.message(NewOrderStates.entering_details)
@@ -89,7 +84,7 @@ def build_router(source: str) -> Router:
 
         order = storage.create_order(
             user_id=0,
-            chat_id=0,  # no live buyer chat for this channel
+            chat_id=0,
             lang="uk",
             product=product,
             details_raw=message.text,
@@ -97,17 +92,18 @@ def build_router(source: str) -> Router:
         )
         await state.clear()
 
+        esc_details = html.escape(str(message.text or ""))
         card = (
-            f"{icon} *Order #{order['id']}* ({source})\n"
-            f"Product: {product}  ({price} ₾)\n\n"
-            f"*Buyer details:*\n{message.text}\n\n"
-            f"Status: _awaiting payment_"
+            f"{icon} <b>Order #{html.escape(str(order['id']))}</b> ({html.escape(source)})\n"
+            f"Product: {html.escape(product)}  ({price} ₾)\n\n"
+            f"<b>Buyer details:</b>\n{esc_details}\n\n"
+            f"Status: <i>awaiting payment</i>"
         )
-        await message.answer(card, parse_mode="Markdown", reply_markup=manual_order_keyboard(order["id"]))
+        await message.answer(card, parse_mode="HTML", reply_markup=manual_order_keyboard(order["id"]))
 
     @router.callback_query(F.data.startswith("m_paid:"))
     async def on_manual_paid(callback: CallbackQuery):
-        order_id = int(callback.data.split(":", 1)[1])
+        order_id = callback.data.split(":", 1)[1]
         order = storage.get_order(order_id)
         if not order:
             await callback.answer("Order not found", show_alert=True)
@@ -119,7 +115,7 @@ def build_router(source: str) -> Router:
 
     @router.callback_query(F.data.startswith("m_remind:"))
     async def on_manual_remind(callback: CallbackQuery):
-        order_id = int(callback.data.split(":", 1)[1])
+        order_id = callback.data.split(":", 1)[1]
         order = storage.get_order(order_id)
         if not order:
             await callback.answer("Order not found", show_alert=True)
