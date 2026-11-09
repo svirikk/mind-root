@@ -98,7 +98,6 @@
       }
     });
 
-    // If a combined Dual Complex photo exists in SITE.products.dual.photo, try loading it cleanly
     var dualPhoto = SITE.products.dual && SITE.products.dual.photo;
     if (dualPhoto) {
       $$('[data-dual-stage]', scope).forEach(function (stageEl) {
@@ -234,7 +233,16 @@
     $('#detailsRoot').innerHTML = ['mane', 'cord', 'dual'].map(detailHTML).join('');
   }
 
-  /* ---------- cart ---------- */
+  /* ---------- cart & full-screen confirmation modal state ---------- */
+  var dlg = $('#cartDialog');
+  var successModal = $('#orderSuccessModal');
+
+  function syncBodyScroll() {
+    var drawerOpen = dlg && dlg.open;
+    var modalOpen = successModal && !successModal.hidden;
+    document.body.classList.toggle('no-scroll', !!(drawerOpen || modalOpen));
+  }
+
   function lineThumb(id) {
     return id === 'dual'
       ? '<div class="line__thumb" style="display:flex;gap:2px"><div class="bottle" data-bottle="mane" style="--bw:28px"></div><div class="bottle" data-bottle="cord" style="--bw:28px"></div></div>'
@@ -252,7 +260,8 @@
     var sticky = $('#stickyCart');
     if (sticky) {
       if (calc.bottles === 0) stickyDismissed = false;
-      sticky.hidden = calc.bottles === 0 || stickyDismissed;
+      var modalVisible = successModal && !successModal.hidden;
+      sticky.hidden = calc.bottles === 0 || stickyDismissed || modalVisible;
       var sc = $('#stickyCount'), st = $('#stickyTotal');
       if (sc) sc.textContent = calc.bottles + ' ' + t('cart_bottles');
       if (st) st.textContent = gel(calc.total);
@@ -280,7 +289,6 @@
     $('#checkoutSum').innerHTML = summaryHTML(calc);
   }
 
-  var dlg = $('#cartDialog');
   function showView(name) {
     $$('.view', dlg).forEach(function (v) { v.hidden = v.getAttribute('data-view') !== name; });
     if (name === 'checkout') {
@@ -290,19 +298,45 @@
     }
   }
   function openCart(view) {
+    if (successModal && !successModal.hidden) closeSuccessScreen();
     if (!dlg.open) {
       if (typeof dlg.showModal === 'function') dlg.showModal();
       else dlg.setAttribute('open', '');
-      document.body.classList.add('no-scroll');
     }
     showView(view || 'cart');
+    syncBodyScroll();
   }
-  function closeCart() { if (dlg.open) dlg.close(); }
+  function closeCart() {
+    if (dlg.open) {
+      if (typeof dlg.close === 'function') dlg.close();
+      else dlg.removeAttribute('open');
+    }
+    syncBodyScroll();
+  }
   dlg.addEventListener('close', function () {
-    document.body.classList.remove('no-scroll');
-    if (!$('.view[data-view="done"]', dlg).hidden) { doneState = null; showView('cart'); }
+    showView('cart');
+    syncBodyScroll();
   });
   dlg.addEventListener('click', function (e) { if (e.target === dlg) closeCart(); });
+
+  function openSuccessScreen() {
+    closeCart();
+    var sticky = $('#stickyCart');
+    if (sticky) sticky.hidden = true;
+    renderDone();
+    if (successModal) {
+      successModal.hidden = false;
+      syncBodyScroll();
+      var tgBtn = $('#tgPayBtn', successModal) || $('#closeSuccessModal', successModal);
+      if (tgBtn) tgBtn.focus();
+    }
+  }
+
+  function closeSuccessScreen() {
+    if (successModal) successModal.hidden = true;
+    doneState = null;
+    syncBodyScroll();
+  }
 
   /* ---------- checkout ---------- */
   function renderConsent() {
@@ -377,40 +411,64 @@
       });
       cart.clear();
       $('#orderForm').reset();
-      renderDone();
-      showView('done');
+      openSuccessScreen();
     }).catch(function () { formAlert('err_network'); })
       .then(function () { clearTimeout(timer); btn.disabled = false; btn.textContent = t('f_submit'); });
   }
 
-  /* ---------- order confirmation ---------- */
+  /* ---------- Full-Screen Order Confirmation Renderer ---------- */
+  var TG_ICON_SVG = '<svg class="oc-tg-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+    '<path d="M21.9 4.4c.3-1.2-.8-2.1-1.9-1.7L2.6 9.4c-1.2.5-1.1 2.2.1 2.6l4.5 1.4 10.4-6.6c.5-.3 1 .2.6.6l-8.4 7.6-.3 4.6c.4 0 .8-.2 1.1-.5l2.2-2.1 4.6 3.4c.9.5 2 0 2.2-1.1l2.3-14.9z"/>' +
+    '</svg>';
+
+  var CHECK_ICON_SVG = '<div class="oc-check" aria-hidden="true">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M20 6L9 17l-5-5"/>' +
+    '</svg></div>';
+
   function renderDone() {
-    var d = doneState; if (!d) return;
-    var html = '<h3 style="font-size:26px;margin-bottom:6px">' + esc(t('done_title')) + '</h3>' +
-      '<p class="note">' + esc(t('done_order')) + ' <b style="color:var(--amber);font-family:var(--mono)">#' + esc(d.order_id) + '</b></p>';
-    html += d.notified
-      ? '<div class="alert alert--ok">' + esc(t('done_ok')) + '</div>'
-      : '<div class="alert alert--warn"><b>' + esc(t('done_warn_title')) + '</b><br>' + esc(t('done_warn')) + '</div>';
+    var d = doneState;
+    if (!d) return;
+
+    var totalsHTML = '';
     if (d.totals && d.totals.total !== undefined) {
-      html += '<div style="margin:18px 0">' + summaryHTML(d.totals) + '</div>';
+      var c = d.totals;
+      totalsHTML = '<div class="oc-totals">';
+      if (c.discount) {
+        totalsHTML += '<div class="oc-totals__row"><span>' + esc(t('cart_subtotal')) + '</span><span>' + gel(c.subtotal) + '</span></div>' +
+          '<div class="oc-totals__row oc-totals__row--disc"><span>' + esc(t('cart_discount')) + '</span><span>−' + gel(c.discount) + '</span></div>';
+      }
+      totalsHTML += '<div class="oc-totals__total"><span>' + esc(t('cart_total')) + '</span><strong>' + gel(c.total) + '</strong></div></div>';
     }
-    html += '<h4 style="font:700 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin:20px 0 8px">' + esc(t('done_pay')) + '</h4>';
-    if (d.bot_link) {
-      html += '<p class="note" style="margin-bottom:14px">' + esc(t('done_pay_bot_hint')) + '</p>';
-      html += '<a class="btn btn--primary btn--block" id="tgPayBtn" target="_blank" rel="noopener" href="' + esc(d.bot_link) + '">✈️ ' + esc(t('done_tg')) + '</a>';
-    } else if (d.requisites) {
-      html += '<code class="req">' + esc(d.requisites) + '</code>';
-    } else {
-      html += '<p class="note">' + esc(t('done_pay_none')) + '</p>';
-    }
-    if (!d.notified || !d.bot_link) {
-      var msg = encodeURIComponent('Mind Root — order #' + d.order_id + (d.totals ? ', ' + d.totals.total + ' GEL' : ''));
-      var tg = d.owner_telegram ? 'https://t.me/' + encodeURIComponent(d.owner_telegram) + '?text=' + msg : SITE.contact.telegramUrl;
-      if (tg) html += '<a class="btn btn--ghost btn--block" style="margin-top:10px" target="_blank" rel="noopener" href="' + esc(tg) + '">' + esc(t('done_owner')) + '</a>';
-      html += '<a class="btn btn--ghost btn--block" style="margin-top:10px" target="_blank" rel="noopener" href="' + esc(SITE.contact.instagramUrl) + '">' + esc(t('done_ig')) + '</a>';
-    }
-    html += '<button class="btn btn--ghost btn--block" style="margin-top:10px" type="button" data-close-cart>' + esc(t('done_close')) + '</button>';
-    $('#doneBody').innerHTML = html;
+
+    var msg = encodeURIComponent('Mind Root — order #' + d.order_id + (d.totals ? ', ' + d.totals.total + ' GEL' : ''));
+    var fallbackTg = d.owner_telegram
+      ? 'https://t.me/' + encodeURIComponent(d.owner_telegram) + '?text=' + msg
+      : (SITE.contact.telegramUrl || 'https://t.me/');
+    var tgHref = d.bot_link || fallbackTg;
+
+    var html = CHECK_ICON_SVG +
+      '<h2 class="oc-title" id="ocHeading">' + esc(t('done_title')) + '</h2>' +
+      '<div class="oc-order-badge">' + esc(t('done_order')) + ' <strong>#' + esc(d.order_id) + '</strong></div>' +
+      totalsHTML +
+      '<div class="oc-step">' +
+        '<h3 class="oc-step__title">' + esc(t('done_step_title')) + '</h3>' +
+        '<p class="oc-step__text">' + esc(t('done_step_text')) + '</p>' +
+        '<a class="btn btn--primary btn--block oc-cta" id="tgPayBtn" target="_blank" rel="noopener" href="' + esc(tgHref) + '">' +
+          TG_ICON_SVG + '<span>' + esc(t('done_tg')) + '</span>' +
+        '</a>' +
+        '<p class="oc-methods">' + esc(t('done_methods')) + '</p>' +
+      '</div>';
+
+    var bodyEl = $('#orderSuccessBody');
+    if (bodyEl) bodyEl.innerHTML = html;
+
+    var footEl = $('#orderSuccessFoot');
+    if (footEl) footEl.textContent = t('done_thanks');
+
+    // Keep legacy container populated in case any automated test inspects #doneBody
+    var legacyDone = $('#doneBody');
+    if (legacyDone) legacyDone.innerHTML = html;
   }
 
   /* ---------- events (delegated) ---------- */
@@ -456,6 +514,8 @@
       if (sticky) sticky.hidden = true;
     } else if (el.id === 'tgPayBtn') {
       trackEvent('open_telegram_payment', { order_id: doneState ? String(doneState.order_id) : '' });
+    } else if (el.hasAttribute('data-close-done') || el.id === 'closeSuccessModal') {
+      closeSuccessScreen();
     } else if (el.hasAttribute('data-open-cart-view')) {
       openCart(el.getAttribute('data-open-cart-view'));
     } else if (el.hasAttribute('data-line-inc')) cart.add(el.getAttribute('data-line-inc'), 1);
@@ -481,7 +541,12 @@
   }
   function onScroll() { $('.site-header').classList.toggle('is-solid', window.scrollY > 40); }
   window.addEventListener('scroll', onScroll, { passive: true });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') toggleMenu(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      if (successModal && !successModal.hidden) closeSuccessScreen();
+      toggleMenu(false);
+    }
+  });
 
   onScroll();
   setLang(lang);

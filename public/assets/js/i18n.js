@@ -55,7 +55,7 @@ en: {
     { t: "Choose products", d: "Pick Lion's Mane, Cordyceps or the Dual Complex. Free shipping on every bottle." },
     { t: "Enter delivery details", d: "Name, phone, email, city and address." },
     { t: "Pay via Telegram bot", d: "Tap the button after ordering to open our Telegram bot and choose TBC/BOG bank transfer or Crypto (USDT)." },
-    { t: "Receive your parcel", d: "Send the receipt in the bot — we confirm and ship. Free delivery across Georgia takes 1–3 days." }
+    { t: "Receive your parcel", d: "Confirm payment in the bot — we verify and ship. Free delivery across Georgia takes 1–3 days." }
   ],
   how_note: "Payment by Bank Transfer (TBC / BOG) or Crypto (USDT TRC20 / BEP20). Free delivery across Georgia.",
 
@@ -66,12 +66,12 @@ en: {
     { q: "How do I take it?", a: "As printed on the label: take 2 capsules one to two times per day, preferably with a meal, or as directed by your healthcare professional. Do not exceed the recommended dose." },
     { q: "How do I pay?", a: "Right after placing your order, tap the button to open our Telegram bot. It will automatically recognize your order and let you choose between Georgian bank transfer (TBC / BOG) or Crypto (USDT TRC20 / BEP20)." },
     { q: "How does delivery work?", a: "Delivery across Georgia is completely free on every order (even for 1 bottle) and takes 1–3 days after payment confirmation." },
-    { q: "How will my order be confirmed?", a: "You get a unique order code (#MR-XXXX) right after submitting. Send your payment screenshot in our Telegram bot and you'll get an automatic confirmation." },
+    { q: "How will my order be confirmed?", a: "You get a unique order code (#MR-XXXX) right after submitting. Confirm your payment in our Telegram bot and you'll get an automatic confirmation." },
     { q: "How should I store it?", a: "Store in a cool, dry place away from direct light. Keep out of reach of children." }
   ],
 
   cart_title: "Your order", cart_close: "Close", cart_empty: "Your cart is empty.",
-  cart_subtotal: "Original subtotal", cart_discount: "Multi-bottle discount (20%)", cart_total: "Total",
+  cart_subtotal: "Original subtotal", cart_discount: "Multi-bottle discount (20%)", cart_total: "Total to pay",
   cart_hint: "Add one more bottle to get 20% off.",
   cart_free: "🚚 Delivery across Georgia: free on all orders",
   cart_checkout: "Checkout", cart_continue: "Continue shopping", cart_remove: "Remove",
@@ -87,14 +87,16 @@ en: {
   err_generic: "We couldn't place your order. Please check the form and try again.",
   err_rate: "Too many attempts. Please wait a few minutes and try again.",
   err_network: "Connection problem. Your cart is saved — please try again.",
-  done_title: "Order registered!", done_order: "Order",
-  done_ok: "Next step: open our Telegram bot below. It already knows your order and will instantly send you payment details — choose Bank Transfer (TBC / BOG) or Crypto (USDT).",
-  done_warn_title: "Order saved, please contact us to complete payment",
-  done_warn: "Please open our Telegram bot or message us with your order number to receive payment details.",
-  done_pay: "Step 2 — Proceed to Payment",
-  done_pay_bot_hint: "Tap the button below and press Start in Telegram — the bot will immediately send you TBC / BOG and Crypto (USDT) payment options.",
-  done_pay_none: "Payment details will be sent to you in Telegram.",
-  done_tg: "Open Telegram Bot to Pay (TBC / Crypto)", done_owner: "Message us on Telegram", done_ig: "Message us on Instagram",
+
+  done_title: "Your order has been received!",
+  done_order: "Order",
+  done_step_title: "One last step!",
+  done_step_text: "Continue to Telegram to receive payment details and complete your order.",
+  done_tg: "Continue to Telegram",
+  done_methods: "Payment methods: TBC / Bank of Georgia / USDT",
+  done_thanks: "Thank you for choosing Mind Root.",
+  done_owner: "Message us on Telegram",
+  done_ig: "Message us on Instagram",
   done_close: "Close",
 
   ft_tag: "Functional mushrooms for your everyday routine.",
@@ -155,7 +157,7 @@ uk: {
     { t: "Оберіть продукти", d: "Lion's Mane, Cordyceps або Dual Complex. Безкоштовна доставка на кожну баночку." },
     { t: "Вкажіть дані доставки", d: "Ім'я, телефон, пошта, місто й адреса." },
     { t: "Оберіть оплату в Telegram", d: "Після замовлення натисніть кнопку переходу в наш Telegram-бот — він одразу видасть реквізити TBC/BOG або Крипти (USDT)." },
-    { t: "Отримайте посилку", d: "Надішліть скріншот оплати в бот — ми підтвердимо і відправимо. Доставка по Грузії — 1–3 дні." }
+    { t: "Отримайте посилку", d: "Підтвердіть оплату в боті — ми перевіримо і відправимо. Доставка по Грузії — 1–3 дні." }
   ],
   how_note: "Оплата на рахунок (TBC / BOG) або Криптою (USDT TRC20 / BEP20). Доставка по Грузії безкоштовна.",
 
@@ -166,12 +168,12 @@ uk: {
     { q: "Як приймати?", a: "Як вказано на етикетці: 2 капсули один–два рази на день, бажано під час їжі, або за рекомендацією лікаря. Не перевищуйте рекомендовану дозу." },
     { q: "Як оплатити?", a: "Одразу після оформлення замовлення натисніть кнопку переходу в наш Telegram-бот. Бот автоматично розпізнає ваше замовлення і запропонує оплату на грузинський рахунок (TBC / BOG) або криптою (USDT TRC20 / BEP20)." },
     { q: "Як працює доставка?", a: "Доставка по всій Грузії повністю безкоштовна для кожного замовлення (навіть на 1 баночку) і займає 1–3 дні після підтвердження оплати." },
-    { q: "Як підтверджується замовлення?", a: "Ви одразу отримуєте унікальний номер замовлення (#MR-XXXX). Надішліть скріншот оплати в наш Telegram-бот, і вам прийде автоматичне сповіщення про підтвердження." },
+    { q: "Як підтверджується замовлення?", a: "Ви одразу отримуєте унікальний номер замовлення (#MR-XXXX). Підтвердіть оплату в нашому Telegram-боті, і вам прийде сповіщення про відправку." },
     { q: "Як зберігати?", a: "У прохолодному сухому місці, подалі від прямого світла. Зберігати в недоступному для дітей місці." }
   ],
 
   cart_title: "Ваше замовлення", cart_close: "Закрити", cart_empty: "Кошик порожній.",
-  cart_subtotal: "Сума без знижки", cart_discount: "Знижка за кілька баночок (20%)", cart_total: "Разом",
+  cart_subtotal: "Сума без знижки", cart_discount: "Знижка за кілька баночок (20%)", cart_total: "До оплати",
   cart_hint: "Додайте ще одну баночку — і отримайте знижку 20%.",
   cart_free: "🚚 Доставка по Грузії: безкоштовно для всіх замовлень",
   cart_checkout: "Оформити", cart_continue: "Продовжити покупки", cart_remove: "Видалити",
@@ -187,14 +189,16 @@ uk: {
   err_generic: "Не вдалося оформити замовлення. Перевірте форму й спробуйте ще раз.",
   err_rate: "Забагато спроб. Зачекайте кілька хвилин.",
   err_network: "Проблема зі з'єднанням. Кошик збережено — спробуйте ще раз.",
-  done_title: "Замовлення сформовано!", done_order: "Замовлення",
-  done_ok: "Наступний крок: перейдіть у наш Telegram-бот за кнопкою нижче. Бот уже знає ваше замовлення і миттєво надішле реквізити на вибір — картка Грузії (TBC / BOG) або Крипта (USDT).",
-  done_warn_title: "Замовлення збережено — зв'яжіться з нами для оплати",
-  done_warn: "Перейдіть у наш Telegram-бот або напишіть нам із номером замовлення, щоб отримати реквізити.",
-  done_pay: "Крок 2 — Отримання реквізитів та оплата",
-  done_pay_bot_hint: "Натисніть кнопку нижче та запустіть бота («Start») — він одразу видасть реквізити TBC / BOG або криптогаманець USDT, куди ви зможете надіслати чек.",
-  done_pay_none: "Реквізити будуть надіслані у Telegram-боті.",
-  done_tg: "Перейти в Telegram для оплати (TBC / Крипта)", done_owner: "Написати нам у Telegram", done_ig: "Написати нам в Instagram",
+
+  done_title: "Ваше замовлення прийнято!",
+  done_order: "Замовлення",
+  done_step_title: "Останній крок!",
+  done_step_text: "Перейдіть у Telegram, щоб отримати реквізити для оплати та завершити замовлення.",
+  done_tg: "Перейти в Telegram",
+  done_methods: "Способи оплати: TBC / Bank of Georgia / USDT",
+  done_thanks: "Дякуємо, що обрали Mind Root.",
+  done_owner: "Написати нам у Telegram",
+  done_ig: "Написати нам в Instagram",
   done_close: "Закрити",
 
   ft_tag: "Функціональні гриби для вашої щоденної рутини.",
@@ -255,7 +259,7 @@ ru: {
     { t: "Выберите продукты", d: "Lion's Mane, Cordyceps или Dual Complex. Бесплатная доставка на каждую баночку." },
     { t: "Укажите данные доставки", d: "Имя, телефон, почта, город и адрес." },
     { t: "Выберите оплату в Telegram", d: "После заказа нажмите кнопку перехода в наш Telegram-бот — он сразу выдаст реквизиты TBC/BOG или Крипты (USDT)." },
-    { t: "Получите посылку", d: "Отправьте скриншот оплаты в бот — мы подтвердим и отправим. Доставка по Грузии — 1–3 дня." }
+    { t: "Получите посылку", d: "Подтвердите оплату в боте — мы проверим и отправим. Доставка по Грузии — 1–3 дня." }
   ],
   how_note: "Оплата переводом (TBC / BOG) или Криптой (USDT TRC20 / BEP20). Доставка по Грузии бесплатная.",
 
@@ -266,12 +270,12 @@ ru: {
     { q: "Как принимать?", a: "Как указано на этикетке: 2 капсулы один–два раза в день, желательно во время еды, или по рекомендации врача. Не превышайте рекомендуемую дозу." },
     { q: "Как оплатить?", a: "Сразу после оформления заказа нажмите кнопку перехода в наш Telegram-бот. Бот автоматически распознает ваш заказ и предложит оплату на грузинский счёт (TBC / BOG) или криптой (USDT TRC20 / BEP20)." },
     { q: "Как работает доставка?", a: "Доставка по всей Грузии полностью бесплатна для любого заказа (даже на 1 баночку) и занимает 1–3 дня после подтверждения оплаты." },
-    { q: "Как подтверждается заказ?", a: "Вы сразу получаете уникальный номер заказа (#MR-XXXX). Отправьте скриншот оплаты в наш Telegram-бот, и вам придёт автоматическое подтверждение." },
+    { q: "Как подтверждается заказ?", a: "Вы сразу получаете уникальный номер заказа (#MR-XXXX). Подтвердите оплату в нашем Telegram-боте, и вам придёт автоматическое уведомление." },
     { q: "Как хранить?", a: "В прохладном сухом месте, вдали от прямого света. Хранить в недоступном для детей месте." }
   ],
 
   cart_title: "Ваш заказ", cart_close: "Закрыть", cart_empty: "Корзина пуста.",
-  cart_subtotal: "Сумма без скидки", cart_discount: "Скидка за несколько баночек (20%)", cart_total: "Итого",
+  cart_subtotal: "Сумма без скидки", cart_discount: "Скидка за несколько баночек (20%)", cart_total: "К оплате",
   cart_hint: "Добавьте ещё одну баночку — и получите скидку 20%.",
   cart_free: "🚚 Доставка по Грузии: бесплатно для всех заказов",
   cart_checkout: "Оформить", cart_continue: "Продолжить покупки", cart_remove: "Удалить",
@@ -287,14 +291,16 @@ ru: {
   err_generic: "Не удалось оформить заказ. Проверьте форму и попробуйте ещё раз.",
   err_rate: "Слишком много попыток. Подождите несколько минут.",
   err_network: "Проблема с соединением. Корзина сохранена — попробуйте ещё раз.",
-  done_title: "Заказ сформирован!", done_order: "Заказ",
-  done_ok: "Следующий шаг: перейдите в наш Telegram-бот по кнопке ниже. Бот уже знает ваш заказ и сразу пришлёт реквизиты на выбор — счёт в Грузии (TBC / BOG) или Крипта (USDT).",
-  done_warn_title: "Заказ сохранён — свяжитесь с нами для оплаты",
-  done_warn: "Перейдите в наш Telegram-бот или напишите нам с номером заказа для получения реквизитов.",
-  done_pay: "Шаг 2 — Получение реквизитов и оплата",
-  done_pay_bot_hint: "Нажмите кнопку ниже и запустите бота («Start») — он сразу выдаст реквизиты TBC / BOG или криптокошелёк USDT, куда вы сможете отправить чек.",
-  done_pay_none: "Реквизиты будут отправлены в Telegram-боте.",
-  done_tg: "Перейти в Telegram для оплаты (TBC / Крипта)", done_owner: "Написать нам в Telegram", done_ig: "Написать нам в Instagram",
+
+  done_title: "Ваш заказ принят!",
+  done_order: "Заказ",
+  done_step_title: "Последний шаг!",
+  done_step_text: "Перейдите в Telegram, чтобы получить реквизиты для оплаты и завершить заказ.",
+  done_tg: "Перейти в Telegram",
+  done_methods: "Способы оплаты: TBC / Bank of Georgia / USDT",
+  done_thanks: "Спасибо, что выбрали Mind Root.",
+  done_owner: "Написать нам в Telegram",
+  done_ig: "Написать нам в Instagram",
   done_close: "Закрыть",
 
   ft_tag: "Функциональные грибы для вашей ежедневной рутины.",
@@ -355,7 +361,7 @@ ka: {
     { t: "აირჩიეთ პროდუქტები", d: "Lion's Mane, Cordyceps ან Dual Complex. უფასო მიწოდება ყველა ქილაზე." },
     { t: "მიუთითეთ მიწოდების მონაცემები", d: "სახელი, ტელეფონი, ელ. ფოსტა, ქალაქი და მისამართი." },
     { t: "აირჩიეთ გადახდა Telegram-ში", d: "შეკვეთის შემდეგ გადადით ჩვენს Telegram ბოტში — აირჩიეთ TBC/BOG გადარიცხვა ან კრიპტო (USDT)." },
-    { t: "მიიღეთ ამანათი", d: "გაგზავნეთ ქვითრის სქრინშოთი ბოტში — გადახდას დავადასტურებთ და გამოვგზავნით (1–3 დღე)." }
+    { t: "მიიღეთ ამანათი", d: "დაადასტურეთ გადახდა ბოტში — შევამოწმებთ და გამოვგზავნით (1–3 დღე)." }
   ],
   how_note: "გადახდა საბანკო გადარიცხვით (TBC / BOG) ან კრიპტოვალუტით (USDT). მიწოდება საქართველოში უფასოა.",
 
@@ -366,12 +372,12 @@ ka: {
     { q: "როგორ მივიღო?", a: "ეტიკეტზე მითითებულია: 2 კაფსულა დღეში ერთხელ ან ორჯერ, სასურველია საკვებთან ერთად, ან ექიმის რეკომენდაციით. არ გადააჭარბოთ რეკომენდებულ დოზას." },
     { q: "როგორ გადავიხადო?", a: "შეკვეთის გაფორმებისთანავე დააჭირეთ Telegram ბოტში გადასვლის ღილაკს. ბოტი ავტომატურად იცნობს თქვენს შეკვეთას და შემოგთავაზებთ საბანკო გადარიცხვას (TBC / BOG) ან კრიპტოს (USDT TRC20 / BEP20)." },
     { q: "როგორ მუშაობს მიწოდება?", a: "მიწოდება საქართველოში სრულიად უფასოა ნებისმიერ შეკვეთაზე და ჩვეულებრივ 1–3 დღე სჭირდება გადახდის დადასტურების შემდეგ." },
-    { q: "როგორ დადასტურდება შეკვეთა?", a: "შეკვეთის უნიკალურ კოდს (#MR-XXXX) მაშინვე იხილავთ. გაგზავნეთ გადახდის სქრინშოთი ჩვენს Telegram ბოტში და მიიღებთ დადასტურებას." },
+    { q: "როგორ დადასტურდება შეკვეთა?", a: "შეკვეთის უნიკალურ კოდს (#MR-XXXX) მაშინვე იხილავთ. დაადასტურეთ გადახდა ჩვენს Telegram ბოტში და მიიღებთ შეტყობინებას." },
     { q: "როგორ შევინახო?", a: "შეინახეთ გრილ, მშრალ ადგილას, პირდაპირი სინათლისგან მოშორებით. შეინახეთ ბავშვებისთვის მიუწვდომელ ადგილას." }
   ],
 
   cart_title: "თქვენი შეკვეთა", cart_close: "დახურვა", cart_empty: "კალათა ცარიელია.",
-  cart_subtotal: "თავდაპირველი ჯამი", cart_discount: "ფასდაკლება რამდენიმე ქილაზე (20%)", cart_total: "სულ",
+  cart_subtotal: "თავდაპირველი ჯამი", cart_discount: "ფასდაკლება რამდენიმე ქილაზე (20%)", cart_total: "გადასახდელი",
   cart_hint: "დაამატეთ კიდევ ერთი ქილა და მიიღეთ 20%-იანი ფასდაკლება.",
   cart_free: "🚚 მიწოდება საქართველოში: უფასოა ყველა შეკვეთაზე",
   cart_checkout: "გაფორმება", cart_continue: "შოპინგის გაგრძელება", cart_remove: "წაშლა",
@@ -387,14 +393,16 @@ ka: {
   err_generic: "შეკვეთის გაფორმება ვერ მოხერხდა. შეამოწმეთ ფორმა და სცადეთ თავიდან.",
   err_rate: "ძალიან ბევრი მცდელობა. დაელოდეთ რამდენიმე წუთს.",
   err_network: "კავშირის პრობლემა. კალათა შენახულია — სცადეთ თავიდან.",
-  done_title: "შეკვეთა მიღებულია!", done_order: "შეკვეთა",
-  done_ok: "შემდეგი ნაბიჯი: გადადით ჩვენს Telegram ბოტში ქვემოთ მოცემული ღილაკით. ბოტი უკვე ცნობს თქვენს შეკვეთას და მაშინვე გამოგიგზავნით გადახდის რეკვიზიტებს — TBC / BOG ან კრიპტო (USDT).",
-  done_warn_title: "შეკვეთა შენახულია — დაგვიკავშირდით გადასახდელად",
-  done_warn: "გთხოვთ გადახვიდეთ ჩვენს Telegram ბოტში ან მოგვწეროთ შეკვეთის ნომრით რეკვიზიტების მისაღებად.",
-  done_pay: "ნაბიჯი 2 — გადახდის მეთოდის არჩევა",
-  done_pay_bot_hint: "დააჭირეთ ქვემოთ მოცემულ ღილაკს და გაუშვით ბოტი (Start) — იქ აირჩევთ საბანკო გადარიცხვას (TBC / BOG) ან USDT კრიპტოს.",
-  done_pay_none: "რეკვიზიტებს მიიღებთ Telegram ბოტში.",
-  done_tg: "Telegram ბოტში გადასვლა გადასახდელად (TBC / Crypto)", done_owner: "მოგვწერეთ Telegram-ში", done_ig: "მოგვწერეთ Instagram-ზე",
+
+  done_title: "თქვენი შეკვეთა მიღებულია!",
+  done_order: "შეკვეთა",
+  done_step_title: "ბოლო ნაბიჯი!",
+  done_step_text: "გადადით Telegram-ში გადახდის დეტალების მისაღებად და შეკვეთის დასასრულებლად.",
+  done_tg: "Telegram-ში გადასვლა",
+  done_methods: "გადახდის მეთოდები: TBC / Bank of Georgia / USDT",
+  done_thanks: "მადლობა, რომ აირჩიეთ Mind Root.",
+  done_owner: "მოგვწერეთ Telegram-ში",
+  done_ig: "მოგვწერეთ Instagram-ზე",
   done_close: "დახურვა",
 
   ft_tag: "ფუნქციური სოკოები თქვენი ყოველდღიური რუტინისთვის.",
