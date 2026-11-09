@@ -1408,3 +1408,227 @@ dialog.drawer::backdrop {
   .eyebrow-mono { display: none; }
   .eyebrow-sep { display: none; }
 }
+/* ==========================================================================
+   FULL-SCREEN ORDER CONFIRMATION EXPERIENCE (#orderSuccessModal)
+   ========================================================================== */
+.order-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100dvh;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(224, 161, 74, 0.12), transparent 55%),
+    linear-gradient(180deg, #0d1612 0%, #080b09 100%);
+  color: var(--text);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  animation: ocFadeIn 0.28s ease;
+}
+.order-modal[hidden] {
+  display: none !important;
+}
+@keyframes ocFadeIn {
+  from { opacity: 0; transform: scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+.order-modal__shell {
+  width: min(500px, 100%);
+  min-height: 100dvh;
+  margin-inline: auto;
+  padding:
+    max(20px, env(safe-area-inset-top, 20px))
+    24px
+    max(24px, env(safe-area-inset-bottom, 24px));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.order-modal__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.order-modal__content {
+  margin: auto 0;
+  background: linear-gradient(180deg, rgba(20, 34, 27, 0.72) 0%, rgba(12, 19, 15, 0.94) 100%);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 32px 26px 28px;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+.oc-check {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: rgba(143, 207, 159, 0.12);
+  border: 1.5px solid rgba(143, 207, 159, 0.45);
+  color: var(--ok);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 28px rgba(143, 207, 159, 0.18);
+}
+.oc-check svg {
+  width: 28px;
+  height: 28px;
+}
+
+.oc-title {
+  font-size: clamp(26px, 4.5vw, 32px);
+  line-height: 1.15;
+  margin: 0 0 10px;
+}
+
+.oc-order-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 500 13px/1 var(--mono);
+  color: var(--muted);
+  background: rgba(8, 11, 9, 0.65);
+  border: 1px solid var(--line);
+  padding: 7px 14px;
+  border-radius: 999px;
+  margin-bottom: 22px;
+}
+.oc-order-badge strong {
+  color: var(--amber);
+  font-weight: 700;
+}
+
+.oc-totals {
+  background: rgba(8, 11, 9, 0.55);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  text-align: left;
+  display: grid;
+  gap: 8px;
+}
+.oc-totals__row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.oc-totals__row--disc {
+  color: var(--ok);
+  font-weight: 500;
+}
+.oc-totals__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  margin-top: 2px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.oc-totals__total strong {
+  font: 600 26px/1 var(--serif);
+  color: var(--amber);
+}
+
+.oc-step {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.oc-step__title {
+  font: 600 20px/1.2 var(--serif);
+  color: var(--amber);
+  margin: 0 0 8px;
+}
+.oc-step__text {
+  font-size: 14.5px;
+  color: rgba(243, 238, 228, 0.88);
+  line-height: 1.5;
+  margin: 0 0 18px;
+}
+
+.oc-cta {
+  height: 52px;
+  font-size: 15.5px;
+  border-radius: 12px;
+  gap: 10px;
+}
+.oc-tg-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.oc-methods {
+  font: 500 12px/1.4 var(--mono);
+  color: var(--muted);
+  margin: 14px 0 0;
+}
+
+.order-modal__foot {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  padding-top: 8px;
+}
+
+@media (max-width: 600px) {
+  .order-modal__shell {
+    padding:
+      max(14px, env(safe-area-inset-top, 14px))
+      16px
+      max(18px, env(safe-area-inset-bottom, 18px));
+    gap: 14px;
+  }
+  .order-modal__content {
+    padding: 24px 18px 22px;
+    border-radius: 14px;
+  }
+  .oc-check {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 14px;
+  }
+  .oc-check svg {
+    width: 24px;
+    height: 24px;
+  }
+  .oc-title {
+    font-size: 24px;
+  }
+  .oc-order-badge {
+    margin-bottom: 16px;
+  }
+  .oc-totals {
+    padding: 12px 14px;
+    margin-bottom: 18px;
+  }
+  .oc-totals__total strong {
+    font-size: 23px;
+  }
+  .oc-step {
+    padding-top: 16px;
+  }
+  .oc-step__title {
+    font-size: 18px;
+  }
+  .oc-step__text {
+    font-size: 13.5px;
+    margin-bottom: 14px;
+  }
+  .oc-cta {
+    height: 48px;
+    font-size: 15px;
+  }
+}
