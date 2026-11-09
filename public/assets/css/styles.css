@@ -1,4 +1,5 @@
-/* Mind Root — Apothecary of the High Caucasus Design System */
+/* Mind Root — Apothecary of the High Caucasus Design System
+   Desktop (>840px) preserved 100%; Mobile (<840px, <600px, <390px) compact UX optimization */
 :root {
   --bg: #080b09;
   --forest: #0e1612;
@@ -115,7 +116,7 @@ p { margin: 0 0 1em; }
 }
 .link-btn:hover { color: var(--amber); border-bottom-color: var(--amber); }
 
-/* ---------- header ---------- */
+/* ---------- header (Desktop) ---------- */
 .site-header {
   position: fixed;
   inset: 0 0 auto 0;
@@ -144,8 +145,10 @@ p { margin: 0 0 1em; }
   text-decoration: none;
   font: 600 23px/1 var(--serif);
   letter-spacing: 0.01em;
+  flex-shrink: 0;
 }
-.logo svg { width: 28px; height: 28px; color: var(--amber); }
+.logo svg,
+.logo__img { width: 30px; height: 30px; color: var(--amber); object-fit: contain; }
 .nav {
   display: flex;
   gap: 28px;
@@ -211,6 +214,7 @@ p { margin: 0 0 1em; }
   cursor: pointer;
   font: 600 13px/1 var(--sans);
   transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
 }
 .cart-btn:hover {
   border-color: var(--amber);
@@ -238,6 +242,7 @@ p { margin: 0 0 1em; }
   border-radius: 8px;
   cursor: pointer;
   position: relative;
+  flex-shrink: 0;
 }
 .burger span {
   position: absolute;
@@ -252,7 +257,7 @@ p { margin: 0 0 1em; }
 .burger[aria-expanded="true"] span:first-child { top: 20px; transform: rotate(45deg); }
 .burger[aria-expanded="true"] span:last-child { top: 20px; transform: rotate(-45deg); }
 
-/* ---------- hero ---------- */
+/* ---------- hero (Desktop) ---------- */
 .hero {
   position: relative;
   min-height: 94svh;
@@ -349,6 +354,7 @@ p { margin: 0 0 1em; }
   height: 6px;
   border-radius: 50%;
   background: var(--amber);
+  flex-shrink: 0;
 }
 
 /* ---------- hero stage pedestal ---------- */
@@ -411,7 +417,7 @@ p { margin: 0 0 1em; }
 .stage__specs span { color: var(--muted); font-style: italic; }
 .stage__specs strong { font-family: var(--mono); color: var(--amber); font-size: 11.5px; }
 
-/* ---------- 3D amber apothecary bottle ---------- */
+/* ---------- Photorealistic product photo (with background) + 3D bottle fallback ---------- */
 .bottle {
   --bw: 146px;
   width: var(--bw);
@@ -419,9 +425,62 @@ p { margin: 0 0 1em; }
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
   filter: drop-shadow(0 20px 24px rgba(0, 0, 0, 0.65));
   user-select: none;
 }
+
+.card__stage:has(.product-photo),
+.detail__visual:has(.product-photo) {
+  padding: 0;
+  margin: 14px 0 16px;
+  min-height: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(243, 238, 228, 0.14);
+  background: #080b09;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+}
+
+.card__stage .bottle:has(.product-photo),
+.detail__visual .bottle:has(.product-photo) {
+  width: 100% !important;
+  filter: none;
+}
+
+.product-photo,
+.product-photo--dual {
+  width: 100%;
+  height: 240px;
+  max-height: none;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 11px;
+  filter: none;
+  transition: transform 0.45s ease;
+}
+
+.card:hover .product-photo,
+.card:hover .product-photo--dual {
+  transform: scale(1.03);
+}
+
+.stage__bottles .product-photo {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(224, 161, 74, 0.28);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+}
+
+.line__thumb .product-photo {
+  width: 56px;
+  height: 68px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
 .bottle__cap {
   width: 62%;
   height: calc(var(--bw) * 0.26);
@@ -497,14 +556,14 @@ p { margin: 0 0 1em; }
   }
 }
 
-/* ---------- sections ---------- */
+/* ---------- sections (Desktop) ---------- */
 .section { padding: clamp(72px, 9vw, 124px) 0; }
 .section__head { max-width: 42em; margin: 0 0 48px; }
 .section__head h2 { font-size: clamp(32px, 4.2vw, 52px); letter-spacing: -0.01em; }
 .section__head p:not(.eyebrow) { color: var(--muted); margin-top: 14px; font-size: 17px; }
 .note { font-size: 13px; color: var(--muted); }
 
-/* ---------- product cards ---------- */
+/* ---------- product cards (Desktop) ---------- */
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -584,6 +643,19 @@ p { margin: 0 0 1em; }
   font-size: 14.5px;
   margin-bottom: 18px;
   flex: 1;
+}
+.card__ship {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  font: 600 12px/1 var(--mono);
+  color: var(--ok);
+  background: rgba(143, 207, 159, 0.1);
+  border: 1px solid rgba(143, 207, 159, 0.28);
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-bottom: 16px;
 }
 .card__footer {
   border-top: 1px solid var(--line);
@@ -858,16 +930,16 @@ p { margin: 0 0 1em; }
 /* ---------- sticky floating cart bar ---------- */
 .sticky-cart {
   position: fixed;
-  bottom: 18px;
+  bottom: max(14px, env(safe-area-inset-bottom, 14px));
   left: 50%;
   transform: translateX(-50%);
   z-index: 40;
-  width: min(560px, calc(100% - 28px));
-  background: rgba(14, 22, 18, 0.95);
+  width: min(560px, calc(100% - 24px));
+  background: rgba(14, 22, 18, 0.96);
   border: 1px solid var(--amber);
-  border-radius: 14px;
-  padding: 12px 16px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.72);
   backdrop-filter: blur(12px);
 }
 .sticky-cart[hidden] { display: none; }
@@ -875,22 +947,37 @@ p { margin: 0 0 1em; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 .sticky-cart__meta {
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  gap: 8px;
 }
 .sticky-cart__meta strong {
-  font: 700 12.5px/1 var(--mono);
+  font: 700 12px/1 var(--mono);
   color: var(--muted);
 }
 .sticky-cart__meta span {
-  font: 600 22px/1 var(--serif);
+  font: 600 20px/1 var(--serif);
   color: var(--amber);
 }
-.sticky-cart__btns { display: flex; gap: 8px; }
+.sticky-cart__btns { display: flex; align-items: center; gap: 8px; }
+.sticky-cart__close {
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: color 0.2s, border-color 0.2s;
+}
+.sticky-cart__close:hover { color: var(--text); border-color: var(--amber); }
 
 /* ---------- cart drawer ---------- */
 dialog.drawer {
@@ -1041,49 +1128,283 @@ dialog.drawer::backdrop {
 .drawer__body .btn + .btn { margin-top: 10px; }
 .sum div.disc span:last-child { font-weight: 600; }
 
-/* ---------- responsive ---------- */
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVE OPTIMIZATION (Desktop >1040px untouched)
+   ========================================================================== */
+
 @media (max-width: 1040px) {
   .cards { grid-template-columns: 1fr 1fr; }
   .card--bundle { grid-column: 1 / -1; }
   .steps { grid-template-columns: 1fr 1fr; }
   .faq-layout { grid-template-columns: 1fr; gap: 24px; }
   .foot { grid-template-columns: 1fr 1fr; }
-  .detail { grid-template-columns: 1fr; }
-  .detail__visual { position: static; }
+  .detail { grid-template-columns: 1fr; gap: 24px; padding: 36px 0; }
+  .detail__visual { position: static; padding: 24px 16px; }
 }
 
 @media (max-width: 840px) {
+  :root { --hdr: 62px; }
   .burger { display: block; }
   .cart-btn__label { display: none; }
+  .header-in { gap: 12px; }
+  .header-actions { margin-left: auto; gap: 8px; }
+  .cart-btn { height: 38px; padding: 0 11px; }
+  .burger { width: 38px; height: 38px; }
+  .burger span:first-child { top: 14px; }
+  .burger span:last-child { top: 22px; }
+  .burger[aria-expanded="true"] span:first-child,
+  .burger[aria-expanded="true"] span:last-child { top: 18px; }
+
   .nav {
     position: fixed;
     inset: var(--hdr) 0 auto 0;
     background: rgba(8, 11, 9, 0.98);
     flex-direction: column;
     gap: 0;
-    padding: 8px 24px 24px;
+    padding: 6px 20px 20px;
     border-bottom: 1px solid var(--line);
     transform: translateY(-130%);
     transition: transform 0.3s ease;
     margin: 0;
   }
   .nav.is-open { transform: none; }
-  .nav a { padding: 15px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
-  .header-actions { margin-left: auto; }
-  .hero__in { grid-template-columns: 1fr; padding-bottom: 44px; gap: 36px; }
+  .nav a { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; }
+
+  /* Compact Hero for Mobile & Tablet */
+  .hero { min-height: auto; }
+  .hero__in {
+    grid-template-columns: 1fr;
+    padding: calc(var(--hdr) + 22px) 0 32px;
+    gap: 24px;
+  }
+  .eyebrow-row { margin-bottom: 12px; gap: 8px; }
+  .hero h1 {
+    font-size: clamp(32px, 7.8vw, 44px);
+    line-height: 1.08;
+  }
+  .hero__sub {
+    font-size: 15.5px;
+    margin: 12px 0 20px;
+    line-height: 1.5;
+  }
+  .hero__cta { gap: 10px; }
+  .hero__cta .btn { padding: 12px 20px; font-size: 14px; }
+  .trust {
+    margin: 20px 0 0;
+    padding: 14px 0 0;
+    gap: 8px 18px;
+    font-size: 12px;
+  }
   .stage { order: 2; }
-  .bottle--lg { --bw: 138px; }
+  .stage__pedestal {
+    max-width: 390px;
+    padding: 32px 18px 16px;
+    border-radius: 16px;
+  }
+  .stage__tag {
+    top: -13px;
+    padding: 6px 14px;
+    font-size: 11.5px;
+  }
+  .stage__bottles { padding: 4px 0 14px; gap: 14px; }
+  .bottle--lg { --bw: 108px; }
+  .stage__specs { padding-top: 10px; font-size: 11px; }
 }
 
+/* ---------- Smartphone Optimization (<=600px) ---------- */
 @media (max-width: 600px) {
-  .wrap { width: calc(100% - 32px); }
-  .cards { grid-template-columns: 1fr; }
-  .facts { grid-template-columns: 1fr; }
-  .steps { grid-template-columns: 1fr; }
-  .foot { grid-template-columns: 1fr; }
-  .logo { font-size: 20px; }
-  .lang button { padding: 6px 7px; }
-  .sticky-cart__in { flex-direction: column; align-items: stretch; gap: 10px; }
-  .sticky-cart__meta { justify-content: space-between; }
-  .sticky-cart__btns { display: grid; grid-template-columns: 1fr 1fr; }
+  .wrap { width: calc(100% - 28px); }
+  .section { padding: 46px 0; }
+  .section__head { margin: 0 0 26px; }
+  .section__head h2 { font-size: clamp(26px, 7vw, 34px); }
+  .section__head p:not(.eyebrow) { margin-top: 8px; font-size: 14.5px; line-height: 1.5; }
+  .eyebrow { font-size: 10.5px; margin-bottom: 8px; }
+
+  /* Hero section — 10-15% smaller headline + compact spacing */
+  .hero__in { padding: calc(var(--hdr) + 16px) 0 26px; gap: 20px; }
+  .hero h1 { font-size: clamp(30px, 8.2vw, 36px); }
+  .hero__sub { font-size: 14.5px; margin: 10px 0 16px; }
+  .hero__cta {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .hero__cta .btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 13.5px;
+  }
+  .trust {
+    margin-top: 16px;
+    padding-top: 12px;
+    gap: 6px 14px;
+    font-size: 11.5px;
+  }
+  .stage__pedestal { padding: 26px 14px 14px; }
+  .bottle--lg { --bw: 94px; }
+  .stage__bottles .product-photo { height: 155px; }
+  .stage__bottles .product-photo--dual { height: 150px; }
+
+  /* Product Cards — 25-35% smaller bottle stage + compact editorial layout */
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  .card__top {
+    padding-bottom: 10px;
+  }
+  .card__index { font-size: 10px; }
+  .card__spec, .card__badge { font-size: 10px; padding: 4px 7px; }
+
+  /* 30-35% reduced image height on mobile */
+  .card__stage {
+    min-height: 162px;
+    padding: 12px 0 10px;
+    gap: 10px;
+  }
+  .card__stage:has(.product-photo) {
+    margin: 10px 0 12px;
+    padding: 0;
+  }
+  #card-mane .card__stage .bottle,
+  #card-cord .card__stage .bottle {
+    --bw: 88px !important;
+  }
+  #card-dual .card__stage .bottle {
+    --bw: 78px !important;
+  }
+  .card__stage .product-photo,
+  .card__stage .product-photo--dual {
+    height: 175px;
+    max-height: none;
+  }
+
+  .card h3 {
+    font-size: 22px;
+    margin-bottom: 2px;
+  }
+  .card__latin {
+    font-size: 11.5px;
+    margin-bottom: 8px;
+  }
+  /* Compact 2-3 lines description on mobile */
+  .card p.desc {
+    font-size: 13.5px;
+    line-height: 1.45;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card__ship {
+    font-size: 11px;
+    padding: 5px 8px;
+    margin-bottom: 12px;
+  }
+  .card__footer {
+    padding-top: 12px;
+  }
+  .price {
+    margin: 0 0 10px;
+    gap: 8px;
+  }
+  .price strong { font-size: 26px; }
+  .price s { font-size: 14px; }
+  .price small { font-size: 12px; }
+
+  .card__row { gap: 8px; }
+  .stepper { height: 42px; }
+  .stepper button { width: 34px; font-size: 17px; }
+  .stepper output { min-width: 24px; font-size: 13px; }
+  .card__row .btn--primary {
+    height: 42px;
+    font-size: 13.5px;
+    padding-inline: 12px;
+  }
+  .card__subactions {
+    margin-top: 10px;
+    padding-top: 6px;
+  }
+  .link-btn, .card__more { font-size: 12.5px; }
+
+  /* Details, About, Steps, FAQ & Footer compact mobile spacing */
+  .detail { padding: 28px 0; gap: 18px; }
+  .detail__visual { padding: 18px 14px; }
+  .detail__visual:has(.product-photo) { padding: 0; }
+  .detail__visual .bottle--lg { --bw: 96px; }
+  .detail__visual .bottle--sm { --bw: 78px !important; }
+  .detail h3 { font-size: 24px; margin-bottom: 8px; }
+  .lead { font-size: 14.5px; line-height: 1.5; }
+  .facts { grid-template-columns: 1fr; gap: 12px; margin: 18px 0; }
+  .facts > div { padding: 14px 16px; }
+  .detail__cta { padding: 14px; gap: 10px; margin: 18px 0 10px; }
+  .detail__cta .price { width: 100%; margin-bottom: 2px; }
+
+  .about { min-height: 0; }
+  .about__card { padding: 44px 0; }
+  .about__card h2 { font-size: 28px; margin-bottom: 14px; }
+  .about__copy p { font-size: 14.5px; }
+
+  .steps { grid-template-columns: 1fr; gap: 12px; margin-bottom: 18px; }
+  .steps li { padding: 16px 18px; }
+  .steps li::before { margin-bottom: 10px; }
+  .steps h3 { font-size: 16.5px; }
+  .how-bar { padding: 16px; }
+  .how-bar .btn { width: 100%; }
+
+  .faq details { padding: 15px 0; }
+  .faq summary { font-size: 15px; }
+
+  .site-footer { padding: 42px 0 90px; }
+  .foot { grid-template-columns: 1fr; gap: 24px; }
+
+  /* Compact Single-Row Sticky Bar on Mobile */
+  .sticky-cart {
+    bottom: max(10px, env(safe-area-inset-bottom, 10px));
+    width: calc(100% - 20px);
+    padding: 8px 12px;
+    border-radius: 10px;
+  }
+  .sticky-cart__in {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .sticky-cart__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  .sticky-cart__meta strong { font-size: 10.5px; }
+  .sticky-cart__meta span { font-size: 17px; }
+  .sticky-cart__btns { gap: 6px; }
+  .sticky-cart__btns .btn--sm {
+    padding: 8px 11px;
+    font-size: 12px;
+  }
+}
+
+/* ---------- Narrow Smartphones (360px - 430px) Header & Touch Precision ---------- */
+@media (max-width: 430px) {
+  .header-in { gap: 8px; }
+  .logo { font-size: 18px; gap: 7px; }
+  .logo svg, .logo__img { width: 24px; height: 24px; }
+  .lang { padding: 1.5px; }
+  .lang button { padding: 5px 6px; font-size: 10.5px; }
+  .cart-btn { height: 34px; padding: 0 9px; gap: 5px; }
+  .cart-btn svg { width: 16px; height: 16px; }
+  .burger { width: 34px; height: 34px; }
+  .burger span { left: 9px; right: 9px; }
+  .burger span:first-child { top: 12px; }
+  .burger span:last-child { top: 20px; }
+  .burger[aria-expanded="true"] span:first-child,
+  .burger[aria-expanded="true"] span:last-child { top: 16px; }
+  .eyebrow-mono { display: none; }
+  .eyebrow-sep { display: none; }
 }
