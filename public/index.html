@@ -422,6 +422,24 @@
   </div>
 </dialog>
 
+<!-- ========== FULL-SCREEN ORDER CONFIRMATION MODAL ========== -->
+<div id="orderSuccessModal" class="order-modal" role="dialog" aria-modal="true" aria-labelledby="ocHeading" hidden>
+  <div class="order-modal__shell">
+    <header class="order-modal__top">
+      <a class="logo" href="#top" data-close-done aria-label="mind root">
+        <img class="logo__img" src="/assets/img/logo.png" alt="Mind Root" width="28" height="28" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <svg class="logo__svg" style="display:none" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19 L11 7 L16 13 L20 8 L29 19"/><path d="M16 19 V29 M16 23 L11 27.5 M16 23 L21 27"/></svg>
+        <span>mind root</span>
+      </a>
+      <button class="icon-btn" id="closeSuccessModal" type="button" data-close-done data-i18n-attr="aria-label:cart_close" aria-label="Close">✕</button>
+    </header>
+
+    <div class="order-modal__content" id="orderSuccessBody" aria-live="polite"></div>
+
+    <footer class="order-modal__foot" id="orderSuccessFoot"></footer>
+  </div>
+</div>
+
 <script src="/assets/js/config.js"></script>
 <script src="/assets/js/i18n.js"></script>
 <script src="/assets/js/pricing.js"></script>
