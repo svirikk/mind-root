@@ -1,11 +1,8 @@
-/* ==========================================================================
-   Mind Root — EDIT ME. Everything the owner is likely to change lives here
-   (Google Analytics ID, contacts, delivery, quality-document links, label facts).
-   ========================================================================== */
 window.SITE = {
-  // Paste your Google Analytics 4 Measurement ID here (e.g. "G-XXXXXXXXXX").
-  // Leave "" to disable until you create your GA4 property.
   gaId: "",
+
+  // Твій PNG логотип без фону
+  logo: "/assets/img/logo.png",
 
   contact: {
     email: "[hello@your-domain.ge]",
@@ -13,10 +10,10 @@ window.SITE = {
     instagramHandle: "@mindroot.ge",
     instagramUrl: "https://instagram.com/mindroot.ge",
     telegramHandle: "[@your_telegram]",
-    telegramUrl: "",                 // e.g. "https://t.me/your_telegram"
+    telegramUrl: "",
     place: "Batumi, Georgia"
   },
-  delivery: { feeGel: 0, daysMin: 1, daysMax: 3 },   // free, 1–3 days after payment is confirmed
+  delivery: { feeGel: 0, daysMin: 1, daysMax: 3 },
   docs: { coaMane: "", coaCord: "", halal: "" },
   label: {
     capsules: 120,
@@ -29,7 +26,27 @@ window.SITE = {
     batch: "[batch no. / best-before — add when stock arrives]"
   },
   products: {
-    mane: { name: "Lion's Mane", latin: "Hericium erinaceus", ratio: "10:1", part: "Fruiting body", amount: "1000 mg", label: "/assets/img/label-mane.jpg" },
-    cord: { name: "Cordyceps", latin: "Cordyceps militaris", ratio: "8:1", part: "Fruiting body", amount: "1000 mg", label: "/assets/img/label-cord.jpg" }
+    mane: {
+      name: "Lion's Mane",
+      latin: "Hericium erinaceus",
+      ratio: "10:1",
+      part: "Fruiting body",
+      amount: "1000 mg",
+      label: "/assets/img/label-mane.jpg",
+      photo: "/assets/img/product-mane.jpg" // Заміни на .png, якщо фото в PNG
+    },
+    cord: {
+      name: "Cordyceps",
+      latin: "Cordyceps militaris",
+      ratio: "8:1",
+      part: "Fruiting body",
+      amount: "1000 mg",
+      label: "/assets/img/label-cord.jpg",
+      photo: "/assets/img/product-cord.jpg" // Заміни на .png, якщо фото в PNG
+    },
+    dual: {
+      name: "Dual Complex",
+      photo: "/assets/img/product-dual.jpg" // Заміни на .png, якщо фото в PNG
+    }
   }
 };

@@ -41,6 +41,7 @@
   var cart = window.CartStore.create(store);
   var lang = pickLang();
   var doneState = null;
+  var stickyDismissed = false;
 
   function pickLang() {
     try { var l = store && store.getItem(LANG_KEY); if (I18N.langs.indexOf(l) > -1) return l; } catch (e) { /* ignore */ }
@@ -60,18 +61,56 @@
   var DUAL_LIST = Pricing.calculateCart([{ id: 'dual', qty: 1 }]).subtotal;       // 160
   var DUAL_DEAL = Pricing.calculateCart([{ id: 'dual', qty: 1 }]).total;          // 128
 
-  /* ---------- bottle component ---------- */
-  function bottleHTML(id, eager) {
+  /* ---------- Photorealistic bottle / CSS fallback component ---------- */
+  function cssBottleInner(id, eager) {
     var p = SITE.products[id];
+    if (!p || !p.label) return '';
     return '<div class="bottle__cap"></div><div class="bottle__neck"></div><div class="bottle__body"><div class="bottle__label">' +
-      '<img src="' + p.label + '" alt="Mind Root ' + esc(p.name) + ' — ' + SITE.label.capsules + ' capsules" width="541" height="513" ' +
+      '<img src="' + esc(p.label) + '" alt="Mind Root ' + esc(p.name) + ' — ' + SITE.label.capsules + ' capsules" width="541" height="513" ' +
       (eager ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async"></div></div>';
   }
+
+  function bottleHTML(id, eager) {
+    var p = SITE.products[id];
+    if (!p) return '';
+    if (p.photo) {
+      return '<img class="product-photo" src="' + esc(p.photo) + '" alt="Mind Root ' + esc(p.name) + '" width="400" height="680" ' +
+        (eager ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" data-fallback-bottle="' + esc(id) + '">' +
+        '<div class="bottle__fallback" style="display:none;width:100%;flex-direction:column;align-items:center">' +
+        cssBottleInner(id, eager) + '</div>';
+    }
+    return cssBottleInner(id, eager);
+  }
+
   function renderBottles(root) {
-    $$('[data-bottle]', root).forEach(function (el) {
+    var scope = root || document;
+    $$('[data-bottle]', scope).forEach(function (el) {
       if (el.firstChild) return;
-      el.innerHTML = bottleHTML(el.getAttribute('data-bottle'), !!el.closest('.hero'));
+      var id = el.getAttribute('data-bottle');
+      el.innerHTML = bottleHTML(id, !!el.closest('.hero'));
+      var img = $('img.product-photo', el);
+      if (img) {
+        img.addEventListener('error', function () {
+          img.style.display = 'none';
+          var fb = $('.bottle__fallback', el);
+          if (fb) fb.style.display = 'flex';
+        }, { once: true });
+      }
     });
+
+    // If a combined Dual Complex photo exists in SITE.products.dual.photo, try loading it cleanly
+    var dualPhoto = SITE.products.dual && SITE.products.dual.photo;
+    if (dualPhoto) {
+      $$('[data-dual-stage]', scope).forEach(function (stageEl) {
+        if (stageEl.getAttribute('data-dual-bound')) return;
+        stageEl.setAttribute('data-dual-bound', '1');
+        var probe = new Image();
+        probe.onload = function () {
+          stageEl.innerHTML = '<img class="product-photo product-photo--dual" src="' + esc(dualPhoto) + '" alt="Mind Root Dual Complex" width="640" height="600" loading="lazy" decoding="async">';
+        };
+        probe.src = dualPhoto;
+      });
+    }
   }
 
   /* ---------- i18n ---------- */
@@ -161,13 +200,13 @@
       : docItem(t('d_coa'), id === 'mane' ? SITE.docs.coaMane : SITE.docs.coaCord)) + docItem(t('d_halal'), SITE.docs.halal) +
       '<li>' + esc(t('d_batch')) + ': <span class="ph">' + esc(L.batch) + '</span></li>';
     var visual = dual
-      ? '<div class="bottle bottle--sm" data-bottle="mane" style="--bw:116px"></div><div class="bottle bottle--sm" data-bottle="cord" style="--bw:116px"></div>'
-      : '<div class="bottle bottle--lg" data-bottle="' + id + '"></div>';
+      ? '<div class="detail__visual" data-dual-stage><div class="bottle bottle--sm" data-bottle="mane" style="--bw:116px"></div><div class="bottle bottle--sm" data-bottle="cord" style="--bw:116px"></div></div>'
+      : '<div class="detail__visual"><div class="bottle bottle--lg" data-bottle="' + id + '"></div></div>';
     var price = dual
       ? '<div class="price"><s>' + gel(DUAL_LIST) + '</s><strong>' + gel(DUAL_DEAL) + '</strong></div>'
       : '<div class="price"><strong>' + gel(Pricing.UNIT_PRICE) + '</strong><small>' + esc(t('per_bottle')) + '</small></div>';
     return '<article class="detail reveal" id="product-' + id + '" aria-labelledby="h-' + id + '">' +
-      '<div class="detail__visual">' + visual + '</div><div class="detail__body">' +
+      visual + '<div class="detail__body">' +
       '<h3 id="h-' + id + '">' + esc(pname(id)) + '</h3><p class="lead">' + esc(t(id + '_lead')) + '</p>' +
       '<div class="facts">' +
         '<div><h4>' + esc(t('d_inside')) + '</h4>' + inside + other + '</div>' +
@@ -212,7 +251,8 @@
 
     var sticky = $('#stickyCart');
     if (sticky) {
-      sticky.hidden = calc.bottles === 0;
+      if (calc.bottles === 0) stickyDismissed = false;
+      sticky.hidden = calc.bottles === 0 || stickyDismissed;
       var sc = $('#stickyCount'), st = $('#stickyTotal');
       if (sc) sc.textContent = calc.bottles + ' ' + t('cart_bottles');
       if (st) st.textContent = gel(calc.total);
@@ -343,7 +383,7 @@
       .then(function () { clearTimeout(timer); btn.disabled = false; btn.textContent = t('f_submit'); });
   }
 
-  /* ---------- order confirmation (directs customer to Telegram bot to choose TBC or Crypto) ---------- */
+  /* ---------- order confirmation ---------- */
   function renderDone() {
     var d = doneState; if (!d) return;
     var html = '<h3 style="font-size:26px;margin-bottom:6px">' + esc(t('done_title')) + '</h3>' +
@@ -386,6 +426,7 @@
       var addId = el.getAttribute('data-add');
       var row = el.closest('.card__footer, .card__row, .detail__cta'), outEl = row ? $('output', row) : null;
       var q = outEl ? (parseInt(outEl.textContent, 10) || 1) : 1;
+      stickyDismissed = false;
       cart.add(addId, q);
       trackEvent('add_to_cart', {
         currency: 'GEL',
@@ -398,6 +439,7 @@
       var qId = el.getAttribute('data-quick-buy');
       var qRow = el.closest('.card__footer, .detail__cta'), qOut = qRow ? $('output', qRow) : null;
       var qCount = qOut ? (parseInt(qOut.textContent, 10) || 1) : 1;
+      stickyDismissed = false;
       if (cart.qty(qId) === 0) {
         cart.add(qId, qCount);
         trackEvent('add_to_cart', {
@@ -408,6 +450,10 @@
       }
       if (qOut) qOut.textContent = '1';
       openCart('checkout');
+    } else if (el.id === 'closeStickyCart') {
+      stickyDismissed = true;
+      var sticky = $('#stickyCart');
+      if (sticky) sticky.hidden = true;
     } else if (el.id === 'tgPayBtn') {
       trackEvent('open_telegram_payment', { order_id: doneState ? String(doneState.order_id) : '' });
     } else if (el.hasAttribute('data-open-cart-view')) {
