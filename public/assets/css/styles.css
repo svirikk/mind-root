@@ -1,5 +1,5 @@
 /* Mind Root — Apothecary of the High Caucasus Design System
-   Desktop (>840px) preserved 100%; Mobile (<840px, <600px, <390px) compact UX optimization */
+   Desktop (>840px) preserved; Mobile (<840px, <600px, <430px) full-bottle & larger logo optimization */
 :root {
   --bg: #080b09;
   --forest: #0e1612;
@@ -16,7 +16,7 @@
   --danger: #e58b7a;
   --ok: #8fcf9f;
   --radius: 14px;
-  --hdr: 76px;
+  --hdr: 82px;
   --serif: 'Playfair Display', 'Noto Serif Georgian', Georgia, serif;
   --sans: 'Inter', 'Noto Sans Georgian', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
@@ -116,7 +116,7 @@ p { margin: 0 0 1em; }
 }
 .link-btn:hover { color: var(--amber); border-bottom-color: var(--amber); }
 
-/* ---------- header (Desktop) ---------- */
+/* ---------- header & prominent logo (Desktop) ---------- */
 .site-header {
   position: fixed;
   inset: 0 0 auto 0;
@@ -141,14 +141,20 @@ p { margin: 0 0 1em; }
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-decoration: none;
-  font: 600 23px/1 var(--serif);
+  font: 600 25px/1 var(--serif);
   letter-spacing: 0.01em;
   flex-shrink: 0;
 }
 .logo svg,
-.logo__img { width: 30px; height: 30px; color: var(--amber); object-fit: contain; }
+.logo__img {
+  width: 52px;
+  height: 52px;
+  color: var(--amber);
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
+}
 .nav {
   display: flex;
   gap: 28px;
@@ -451,7 +457,7 @@ p { margin: 0 0 1em; }
 .product-photo,
 .product-photo--dual {
   width: 100%;
-  height: 240px;
+  height: 260px;
   max-height: none;
   object-fit: cover;
   object-position: center;
@@ -467,7 +473,7 @@ p { margin: 0 0 1em; }
 
 .stage__bottles .product-photo {
   width: 100%;
-  height: 210px;
+  height: 215px;
   object-fit: cover;
   border-radius: 12px;
   border: 1px solid rgba(224, 161, 74, 0.28);
@@ -1143,10 +1149,12 @@ dialog.drawer::backdrop {
 }
 
 @media (max-width: 840px) {
-  :root { --hdr: 62px; }
+  :root { --hdr: 68px; }
   .burger { display: block; }
   .cart-btn__label { display: none; }
-  .header-in { gap: 12px; }
+  .header-in { gap: 10px; }
+  .logo { font-size: 21px; gap: 9px; }
+  .logo svg, .logo__img { width: 44px; height: 44px; }
   .header-actions { margin-left: auto; gap: 8px; }
   .cart-btn { height: 38px; padding: 0 11px; }
   .burger { width: 38px; height: 38px; }
@@ -1197,7 +1205,7 @@ dialog.drawer::backdrop {
   }
   .stage { order: 2; }
   .stage__pedestal {
-    max-width: 390px;
+    max-width: 410px;
     padding: 32px 18px 16px;
     border-radius: 16px;
   }
@@ -1220,7 +1228,7 @@ dialog.drawer::backdrop {
   .section__head p:not(.eyebrow) { margin-top: 8px; font-size: 14.5px; line-height: 1.5; }
   .eyebrow { font-size: 10.5px; margin-bottom: 8px; }
 
-  /* Hero section — 10-15% smaller headline + compact spacing */
+  /* Hero section */
   .hero__in { padding: calc(var(--hdr) + 16px) 0 26px; gap: 20px; }
   .hero h1 { font-size: clamp(30px, 8.2vw, 36px); }
   .hero__sub { font-size: 14.5px; margin: 10px 0 16px; }
@@ -1241,14 +1249,19 @@ dialog.drawer::backdrop {
     font-size: 11.5px;
   }
   .stage__pedestal { padding: 26px 14px 14px; }
-  .bottle--lg { --bw: 94px; }
-  .stage__bottles .product-photo { height: 155px; }
-  .stage__bottles .product-photo--dual { height: 150px; }
+  .bottle--lg { --bw: 98px; }
+  .stage__bottles .product-photo,
+  .stage__bottles .product-photo--dual {
+    height: auto;
+    aspect-ratio: 1 / 1;
+    max-height: 215px;
+    object-fit: cover;
+  }
 
-  /* Product Cards — 25-35% smaller bottle stage + compact editorial layout */
+  /* Product Cards — full-height uncropped bottle view on mobile */
   .cards {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 18px;
   }
   .card {
     padding: 16px;
@@ -1260,27 +1273,34 @@ dialog.drawer::backdrop {
   .card__index { font-size: 10px; }
   .card__spec, .card__badge { font-size: 10px; padding: 4px 7px; }
 
-  /* 30-35% reduced image height on mobile */
   .card__stage {
-    min-height: 162px;
+    min-height: 210px;
     padding: 12px 0 10px;
     gap: 10px;
   }
   .card__stage:has(.product-photo) {
-    margin: 10px 0 12px;
+    margin: 12px 0 14px;
     padding: 0;
   }
   #card-mane .card__stage .bottle,
   #card-cord .card__stage .bottle {
-    --bw: 88px !important;
+    --bw: 96px !important;
   }
   #card-dual .card__stage .bottle {
-    --bw: 78px !important;
+    --bw: 84px !important;
   }
+
+  /* Full-height bottle photography on mobile so cap and base are never cut off */
   .card__stage .product-photo,
-  .card__stage .product-photo--dual {
-    height: 175px;
-    max-height: none;
+  .card__stage .product-photo--dual,
+  .detail__visual .product-photo,
+  .detail__visual .product-photo--dual {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3.3;
+    max-height: 270px;
+    object-fit: cover;
+    object-position: center center;
   }
 
   .card h3 {
@@ -1291,7 +1311,6 @@ dialog.drawer::backdrop {
     font-size: 11.5px;
     margin-bottom: 8px;
   }
-  /* Compact 2-3 lines description on mobile */
   .card p.desc {
     font-size: 13.5px;
     line-height: 1.45;
@@ -1390,14 +1409,14 @@ dialog.drawer::backdrop {
   }
 }
 
-/* ---------- Narrow Smartphones (360px - 430px) Header & Touch Precision ---------- */
+/* ---------- Narrow Smartphones (360px - 430px) Header & Larger Logo ---------- */
 @media (max-width: 430px) {
-  .header-in { gap: 8px; }
-  .logo { font-size: 18px; gap: 7px; }
-  .logo svg, .logo__img { width: 24px; height: 24px; }
+  .header-in { gap: 6px; }
+  .logo { font-size: 18px; gap: 8px; }
+  .logo svg, .logo__img { width: 40px; height: 40px; }
   .lang { padding: 1.5px; }
-  .lang button { padding: 5px 6px; font-size: 10.5px; }
-  .cart-btn { height: 34px; padding: 0 9px; gap: 5px; }
+  .lang button { padding: 5px 5.5px; font-size: 10px; }
+  .cart-btn { height: 34px; padding: 0 8px; gap: 4px; }
   .cart-btn svg { width: 16px; height: 16px; }
   .burger { width: 34px; height: 34px; }
   .burger span { left: 9px; right: 9px; }
@@ -1408,6 +1427,7 @@ dialog.drawer::backdrop {
   .eyebrow-mono { display: none; }
   .eyebrow-sep { display: none; }
 }
+
 /* ==========================================================================
    FULL-SCREEN ORDER CONFIRMATION EXPERIENCE (#orderSuccessModal)
    ========================================================================== */
