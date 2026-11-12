@@ -181,23 +181,16 @@
       '<li>' + esc(c.place) + '</li>';
   }
 
-  /* ---------- product detail sections ---------- */
+  /* ---------- product detail sections (only Composition & Serving, no Docs/Storage clutter) ---------- */
   function extractDl(pid) {
     var p = SITE.products[pid];
     return '<dl><dt>' + esc(p.name) + ' — ' + esc(t('d_extract')) + '</dt><dd>' + esc(p.name) + ' ' + esc(p.part.toLowerCase()) + ' extract ' + esc(p.ratio) +
       ' (<i>' + esc(p.latin) + '</i>)</dd><dt>' + esc(t('d_amount')) + '</dt><dd>' + esc(p.amount) + '</dd></dl>';
   }
-  function docItem(label, url) {
-    return '<li>' + esc(label) + ': ' + (url ? '<a class="ph" href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(t('d_open')) + '</a>'
-      : '<span class="ph">' + esc(t('d_request')) + '</span>') + '</li>';
-  }
   function detailHTML(id) {
     var L = SITE.label, dual = id === 'dual';
     var inside = dual ? '<p>' + esc(t('dual_inside')) + '</p>' + extractDl('mane') + extractDl('cord') : extractDl(id);
     var other = '<dl><dt>' + esc(t('d_other')) + '</dt><dd>' + esc(L.otherIngredients) + '</dd></dl>';
-    var docs = (dual ? docItem(SITE.products.mane.name + ' — ' + t('d_coa'), SITE.docs.coaMane) + docItem(SITE.products.cord.name + ' — ' + t('d_coa'), SITE.docs.coaCord)
-      : docItem(t('d_coa'), id === 'mane' ? SITE.docs.coaMane : SITE.docs.coaCord)) + docItem(t('d_halal'), SITE.docs.halal) +
-      '<li>' + esc(t('d_batch')) + ': <span class="ph">' + esc(L.batch) + '</span></li>';
     var visual = dual
       ? '<div class="detail__visual" data-dual-stage><div class="bottle bottle--sm" data-bottle="mane" style="--bw:116px"></div><div class="bottle bottle--sm" data-bottle="cord" style="--bw:116px"></div></div>'
       : '<div class="detail__visual"><div class="bottle bottle--lg" data-bottle="' + id + '"></div></div>';
@@ -213,8 +206,6 @@
           '<dt>' + esc(t('d_capsules')) + '</dt><dd>' + L.capsules + (dual ? ' × 2' : '') + '</dd>' +
           '<dt>' + esc(t('d_servings')) + '</dt><dd>' + L.servings + (dual ? ' × 2' : '') + '</dd>' +
           '<dt>' + esc(t('d_use')) + '</dt><dd>' + esc(L.suggestedUse) + '</dd></dl></div>' +
-        '<div><h4>' + esc(t('d_docs')) + '</h4><ul>' + docs + '</ul></div>' +
-        '<div><h4>' + esc(t('d_storage')) + '</h4><p>' + esc(L.storage) + '</p><p class="note">' + esc(L.origin) + '</p></div>' +
       '</div>' +
       '<div class="mini"><details><summary>' + esc(t('q_med')) + '</summary><p>' + esc(t('a_med')) + '</p></details>' +
       '<details><summary>' + esc(t('q_doc')) + '</summary><p>' + esc(t('a_doc')) + '</p></details></div>' +
@@ -466,7 +457,6 @@
     var footEl = $('#orderSuccessFoot');
     if (footEl) footEl.textContent = t('done_thanks');
 
-    // Keep legacy container populated in case any automated test inspects #doneBody
     var legacyDone = $('#doneBody');
     if (legacyDone) legacyDone.innerHTML = html;
   }
