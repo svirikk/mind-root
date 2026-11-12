@@ -4,8 +4,12 @@ Shared admin logic for the Telegram and Website admin bots.
 
 Buttons under every order card:
   ✅ Оплачено  🔔 Нагадати  ❌ Невірний чек
+
+Admin can Reply to ANY order card, screenshot, or relayed message to send a message
+directly to the customer through Bogdan.
 """
 import html
+from datetime import datetime, timezone
 from aiogram import Bot, Router, F
 from aiogram.filters import Command, CommandStart
 from aiogram.types import CallbackQuery, Message
@@ -22,7 +26,9 @@ def build_router(source: str, admin_chat_id: int, buyer_bot: Bot, requisites: st
     async def cmd_start(message: Message):
         await message.answer(
             f"{icons.get(source, '•')} Admin bot — {source} orders.\n"
-            f"New orders appear here automatically.\n\n/stats — orders across all channels"
+            f"New orders appear here automatically.\n"
+            f"💬 Tip: Reply to any order card or customer message to write directly to the buyer.\n\n"
+            f"/stats — orders across all channels"
         )
 
     @router.message(Command("stats"))
@@ -43,11 +49,14 @@ def build_router(source: str, admin_chat_id: int, buyer_bot: Bot, requisites: st
         if not order:
             await callback.answer("Order not found", show_alert=True)
             return
-        storage.update_order(order["id"], status="paid")
+        now_iso = datetime.now(timezone.utc).isoformat()
+        storage.update_order(order["id"], status="paid", paid_at=now_iso)
         lang = order.get("lang") if order.get("lang") in T else "en"
         if order.get("chat_id"):
             await buyer_bot.send_message(order["chat_id"], T[lang]["paid_confirmed"])
-            await callback.message.reply(f"✅ Order #{order['id']} marked as PAID — buyer notified.")
+            await callback.message.reply(
+                f"✅ Order #{order['id']} marked as PAID — buyer notified (60-day retention timer started)."
+            )
         else:
             await callback.message.reply(
                 f"✅ Order #{order['id']} marked as PAID.\n"
@@ -90,8 +99,10 @@ def build_router(source: str, admin_chat_id: int, buyer_bot: Bot, requisites: st
 
     @router.message(F.chat.id == admin_chat_id, F.reply_to_message)
     async def on_admin_reply(message: Message):
+        """Use Telegram's native Reply on ANY order card, receipt, or question -> goes to that buyer."""
         buyer_chat = storage.get_relay(source, message.reply_to_message.message_id)
         if not buyer_chat:
+            await message.reply("⚠️ Buyer is not linked to a Telegram chat yet (or order came from website without opening the bot).")
             return
         await buyer_bot.send_message(buyer_chat, message.text or "")
         await message.reply("↩️ Sent to the customer.")

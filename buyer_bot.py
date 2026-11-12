@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 Bogdan — Mind Root buyer bot.
-1. Sends the order card to Admin immediately when the buyer enters delivery details.
-2. Lets the buyer switch between Bank Transfer and Crypto silently (no admin spam).
-3. Notifies Admin again (replying to the order card) when the buyer taps "✅ I have paid"
-   or sends a payment screenshot.
+1. Sends the order card to Admin immediately when the buyer submits delivery details.
+2. Lets the buyer switch between Bank Transfer and Crypto silently.
+3. Clears FSM state once the buyer taps "✅ I have paid" or sends a screenshot so they can
+   freely chat with Admin anytime.
+4. Links every admin message (order card, payment alert, screenshot, question) to the buyer's
+   chat_id so Admin can Reply to ANY message in the admin bot to talk to the customer.
+5. Runs a background retention scheduler that messages buyers 60 days after payment with a
+   repeat-order discount.
 """
 import html
 import asyncio
@@ -40,6 +44,10 @@ PAYMENT_REQUISITES = os.environ.get("PAYMENT_REQUISITES", "GE00XXXXXXXXXXXXXXXXX
 CRYPTO_TRC20 = os.environ.get("CRYPTO_TRC20", "Ask admin for TRC20 address")
 CRYPTO_BEP20 = os.environ.get("CRYPTO_BEP20", "Ask admin for BEP20 address")
 USDT_RATE = float(os.environ.get("USDT_RATE", "2.70"))
+
+# Налаштування 60-денного нагадування та додаткової знижки (%)
+RETENTION_DAYS = float(os.environ.get("RETENTION_DAYS", "60"))
+RETENTION_DISCOUNT = int(os.environ.get("RETENTION_DISCOUNT", "15"))
 
 bot = Bot(token=BOT_TOKEN)
 admin_bot = Bot(token=ADMIN_TG_BOT_TOKEN)
@@ -80,8 +88,11 @@ def format_method_label(order: dict) -> str:
 
 
 async def send_initial_admin_card(order: dict, user) -> int | None:
-    """Sends the initial order card to the admin bot as soon as the buyer submits details."""
+    """Sends the initial order card to the admin bot and saves relay link for two-way chat."""
+    source = order.get("source", "telegram")
     if order.get("admin_order_msg_id"):
+        if order.get("chat_id"):
+            storage.save_relay(source, order["admin_order_msg_id"], order["chat_id"])
         return order["admin_order_msg_id"]
 
     lang = order.get("lang") if order.get("lang") in T else "uk"
@@ -101,9 +112,10 @@ async def send_initial_admin_card(order: dict, user) -> int | None:
         f"Buyer: {esc_name} (@{esc_username})\n"
         f"Lang: {lang}\n\n"
         f"<b>Details:</b>\n{esc_details}\n\n"
-        f"Status: <i>awaiting payment</i>"
+        f"Status: <i>awaiting payment</i>\n"
+        f"💬 <i>Reply to this card anytime to message the buyer</i>"
     )
-    a_bot, a_chat = admin_target(order.get("source", "telegram"))
+    a_bot, a_chat = admin_target(source)
     admin_msg = await a_bot.send_message(
         a_chat,
         admin_text,
@@ -112,12 +124,84 @@ async def send_initial_admin_card(order: dict, user) -> int | None:
     )
     storage.update_order(order["id"], admin_order_msg_id=admin_msg.message_id)
     order["admin_order_msg_id"] = admin_msg.message_id
+    if order.get("chat_id"):
+        storage.save_relay(source, admin_msg.message_id, order["chat_id"])
     return admin_msg.message_id
+
+
+async def forward_buyer_text_to_admin(message: Message):
+    """Forwards any free text from buyer to the appropriate admin bot and links reply relay."""
+    lang = storage.get_user_lang(message.from_user.id) or "uk"
+    if lang not in T:
+        lang = "uk"
+    order = (
+        storage.find_latest_open_order_for_user(message.from_user.id)
+        or storage.find_latest_order_for_user(message.from_user.id)
+    )
+    order_tag = f" (Order #{order['id']})" if order else ""
+    username_tag = f" (@{message.from_user.username})" if message.from_user.username else ""
+
+    relay_text = (
+        f"💬 Message from {message.from_user.full_name}{username_tag}{order_tag}:\n\n"
+        f"{message.text}"
+    )
+    source = order.get("source", "telegram") if order else "telegram"
+    a_bot, a_chat = admin_target(source)
+    reply_to = order.get("admin_order_msg_id") if order else None
+    try:
+        sent = await a_bot.send_message(a_chat, relay_text, reply_to_message_id=reply_to)
+    except Exception:
+        sent = await a_bot.send_message(a_chat, relay_text)
+    storage.save_relay(source, sent.message_id, message.chat.id)
+    await message.answer(T[lang]["question_forwarded"])
+
+
+async def retention_loop():
+    """Background task: checks every 6 hours for paid orders that reached 60 days."""
+    await asyncio.sleep(15)
+    while True:
+        try:
+            due_orders = storage.find_orders_due_for_followup(RETENTION_DAYS)
+            for o in due_orders:
+                lang = o.get("lang") if o.get("lang") in T else "uk"
+                text = T[lang]["course_ending"].format(
+                    order_id=o["id"],
+                    discount=RETENTION_DISCOUNT,
+                )
+                try:
+                    await bot.send_message(
+                        o["chat_id"],
+                        text,
+                        parse_mode="Markdown",
+                        reply_markup=back_keyboard(lang),
+                    )
+                    storage.update_order(o["id"], followup_sent=True)
+                    a_bot, a_chat = admin_target(o.get("source", "telegram"))
+                    await a_bot.send_message(
+                        a_chat,
+                        f"🔔 60-day retention reminder (+{RETENTION_DISCOUNT}% discount code ROOT{RETENTION_DISCOUNT}) "
+                        f"was automatically sent to buyer of <b>Order #{html.escape(str(o['id']))}</b>.",
+                        parse_mode="HTML",
+                        reply_to_message_id=o.get("admin_order_msg_id"),
+                    )
+                except Exception:
+                    log.exception("Failed to send 60-day retention message for order %s", o.get("id"))
+                    storage.update_order(o["id"], followup_sent=True)
+        except asyncio.CancelledError:
+            raise
+        except Exception:
+            log.exception("Error in retention_loop")
+        await asyncio.sleep(6 * 3600)
 
 
 dp = Dispatcher(storage=MemoryStorage())
 router = Router()
 dp.include_router(router)
+
+
+@dp.startup()
+async def on_startup():
+    asyncio.create_task(retention_loop())
 
 
 class OrderStates(StatesGroup):
@@ -174,7 +258,7 @@ async def on_lang_chosen(callback: CallbackQuery, state: FSMContext):
 
 async def send_catalog(chat_id: int, lang: str):
     t = T.get(lang, T["en"])
-    await bot.send_message(chat_id, t["welcome"])
+    await bot.send_message(chat_id, t["welcome"], parse_mode="Markdown")
     for key in ["mane", "cord", "bundle"]:
         name = t["name"][key]
         tagline = t["tagline"][key]
@@ -216,7 +300,8 @@ async def on_learn_more(callback: CallbackQuery):
 
 
 @router.callback_query(F.data == "back_to_catalog")
-async def on_back(callback: CallbackQuery):
+async def on_back(callback: CallbackQuery, state: FSMContext):
+    await state.clear()
     lang = storage.get_user_lang(callback.from_user.id) or "uk"
     await callback.answer()
     await send_catalog(callback.message.chat.id, lang)
@@ -253,20 +338,17 @@ async def on_order_details(message: Message, state: FSMContext):
     await state.set_state(OrderStates.waiting_screenshot)
     await state.update_data(order_id=order["id"])
 
-    # 1. Показуємо покупцю вибір способу оплати (Картка або Крипта)
     await message.answer(
         t["choose_payment"].format(order_id=order["id"], price=price),
         parse_mode="Markdown",
         reply_markup=payment_method_keyboard(lang, order["id"]),
     )
 
-    # 2. Відразу надсилаємо картку з даними клієнта в адмін-бот
     await send_initial_admin_card(order, message.from_user)
 
 
 @router.callback_query(F.data.startswith("paym:"))
 async def on_payment_method_chosen(callback: CallbackQuery, state: FSMContext):
-    """Показує реквізити обраного методу та кнопки [✅ Я оплатив(ла)] і [⬅️ Назад] (без спаму адміну)."""
     parts = callback.data.split(":", 2)
     if len(parts) != 3:
         await callback.answer()
@@ -311,7 +393,6 @@ async def on_payment_method_chosen(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(F.data.startswith("payback:"))
 async def on_payment_back(callback: CallbackQuery, state: FSMContext):
-    """Кнопка '⬅️ Назад' — повертає до вибору між Карткою (TBC/BOG) та Криптою."""
     order_id = callback.data.split(":", 1)[1]
     order = storage.get_order(order_id)
     if not order:
@@ -333,7 +414,7 @@ async def on_payment_back(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(F.data.startswith("ipaid:"))
 async def on_i_paid_clicked(callback: CallbackQuery, state: FSMContext):
-    """Кнопка '✅ Я оплатив(ла)' — шле клієнту підтвердження, а адміну — сповіщення про оплату."""
+    """Кнопка '✅ Я оплатив(ла)' — очищує стан блокування, шле підтвердження і сповіщає адміна."""
     order_id = callback.data.split(":", 1)[1]
     order = storage.get_order(order_id)
     if not order:
@@ -346,6 +427,8 @@ async def on_i_paid_clicked(callback: CallbackQuery, state: FSMContext):
     storage.update_order(order_id, status="awaiting_review")
     order["status"] = "awaiting_review"
 
+    # Очищуємо стан, щоб клієнт міг вільно писати будь-які повідомлення в чат
+    await state.clear()
     await callback.answer()
     try:
         await callback.message.edit_reply_markup(reply_markup=None)
@@ -354,10 +437,11 @@ async def on_i_paid_clicked(callback: CallbackQuery, state: FSMContext):
     await callback.message.answer(t["screenshot_received"])
 
     msg_id = await send_initial_admin_card(order, callback.from_user)
-    a_bot, a_chat = admin_target(order.get("source", "telegram"))
+    source = order.get("source", "telegram")
+    a_bot, a_chat = admin_target(source)
     esc_user = html.escape(str(callback.from_user.username or "-"))
     esc_method = html.escape(format_method_label(order))
-    await a_bot.send_message(
+    sent = await a_bot.send_message(
         a_chat,
         f"✅ Buyer (@{esc_user}) tapped <b>«I have paid»</b> for <b>Order #{html.escape(str(order_id))}</b>\n"
         f"Method: <b>{esc_method}</b>",
@@ -365,13 +449,17 @@ async def on_i_paid_clicked(callback: CallbackQuery, state: FSMContext):
         reply_to_message_id=msg_id,
         reply_markup=admin_order_keyboard(order_id),
     )
+    storage.save_relay(source, sent.message_id, callback.message.chat.id)
 
 
-@router.message(OrderStates.waiting_screenshot, F.photo)
-async def on_screenshot(message: Message, state: FSMContext):
+@router.message(F.photo)
+async def on_any_photo(message: Message, state: FSMContext):
+    """Приймає фото чека як у стані waiting_screenshot, так і після натискання 'Я оплатив'."""
     data = await state.get_data()
     order_id = data.get("order_id")
     order = storage.get_order(order_id) if order_id else storage.find_latest_open_order_for_user(message.from_user.id)
+    if not order:
+        order = storage.find_latest_order_for_user(message.from_user.id)
     if not order:
         return
     lang = order.get("lang") if order.get("lang") in T else "uk"
@@ -381,6 +469,9 @@ async def on_screenshot(message: Message, state: FSMContext):
     storage.update_order(order["id"], screenshot_file_id=file_id, status="awaiting_review")
     order["screenshot_file_id"] = file_id
     order["status"] = "awaiting_review"
+
+    # Очищуємо стан, щоб клієнт міг далі вільно писати текст
+    await state.clear()
     await message.answer(t["screenshot_received"])
 
     msg_id = await send_initial_admin_card(order, message.from_user)
@@ -394,8 +485,9 @@ async def on_screenshot(message: Message, state: FSMContext):
         f"📸 Payment screenshot for <b>Order #{html.escape(str(order['id']))}</b>\n"
         f"Method: <b>{esc_method}</b>"
     )
-    a_bot, a_chat = admin_target(order.get("source", "telegram"))
-    await a_bot.send_photo(
+    source = order.get("source", "telegram")
+    a_bot, a_chat = admin_target(source)
+    sent_photo = await a_bot.send_photo(
         a_chat,
         photo_input,
         caption=caption,
@@ -403,33 +495,15 @@ async def on_screenshot(message: Message, state: FSMContext):
         reply_to_message_id=msg_id,
         reply_markup=admin_order_keyboard(order["id"]),
     )
+    storage.save_relay(source, sent_photo.message_id, message.chat.id)
 
 
-@router.message(OrderStates.waiting_screenshot)
-async def on_waiting_screenshot_text(message: Message, state: FSMContext):
-    data = await state.get_data()
-    order = storage.get_order(data.get("order_id"))
-    lang = order["lang"] if (order and order.get("lang") in T) else (storage.get_user_lang(message.from_user.id) or "uk")
-    await message.answer(T[lang]["ask_screenshot_again"])
-
-
-# ---------------------------- free-text relay (buyer -> admin) ----------------------------
+# ---------------------------- two-way free-text relay (buyer -> admin anytime) ----------------------------
 
 @router.message(F.text)
-async def on_free_text(message: Message):
-    lang = storage.get_user_lang(message.from_user.id) or "uk"
-    if lang not in T:
-        lang = "uk"
-    order = storage.find_latest_open_order_for_user(message.from_user.id)
-    order_tag = f" (order #{order['id']})" if order else ""
-
-    relay_text = f"💬 Question from {message.from_user.full_name}{order_tag}:\n{message.text}"
-    source = order.get("source", "telegram") if order else "telegram"
-    a_bot, a_chat = admin_target(source)
-    sent = await a_bot.send_message(a_chat, relay_text)
-    storage.save_relay(source, sent.message_id, message.chat.id)
-
-    await message.answer(T[lang]["question_forwarded"])
+async def on_free_text(message: Message, state: FSMContext):
+    """Будь-яке текстове повідомлення (навіть під час очікування чека чи після оплати) летить адміну."""
+    await forward_buyer_text_to_admin(message)
 
 
 async def main():

@@ -82,6 +82,8 @@ def create_order(user_id: int, chat_id: int, lang: str, product: str, details_ra
             "screenshot_file_id": None,
             "admin_order_msg_id": None,
             "created_at": datetime.now(timezone.utc).isoformat(),
+            "paid_at": None,
+            "followup_sent": False,
         }
         if extra:
             order.update(extra)
@@ -108,18 +110,29 @@ def update_order(order_id, **fields):
         return orders[key]
 
 
-# ---------- relay: links an admin-chat message id to the buyer chat it came from ----------
+# ---------- relay: links ANY admin-chat message id (order card, receipt, question) to buyer chat ----------
 
 def save_relay(source: str, admin_message_id: int, buyer_chat_id: int):
+    if not admin_message_id or not buyer_chat_id:
+        return
     with _lock:
         relay = _read(RELAY_FILE, {})
         relay[f"{source}:{admin_message_id}"] = buyer_chat_id
         _write(RELAY_FILE, relay)
 
 
-def get_relay(source: str, admin_message_id: int):
+def get_relay(source: str, admin_message_id: int) -> int | None:
     relay = _read(RELAY_FILE, {})
-    return relay.get(f"{source}:{admin_message_id}")
+    chat_id = relay.get(f"{source}:{admin_message_id}")
+    if chat_id:
+        return chat_id
+    # Fallback: check if the replied-to message is an order card in orders.json
+    orders = _read(ORDERS_FILE, {})
+    for o in orders.values():
+        if o.get("source") == source and o.get("admin_order_msg_id") == admin_message_id:
+            if o.get("chat_id"):
+                return o["chat_id"]
+    return None
 
 
 def stats_by_source() -> dict:
@@ -135,12 +148,44 @@ def stats_by_source() -> dict:
 
 
 def find_latest_open_order_for_user(user_id: int) -> dict | None:
-    """Latest order of this user that's not yet marked paid - sorted by created_at timestamp."""
+    """Latest order of this user that's not yet marked paid."""
     orders = _read(ORDERS_FILE, {})
     candidates = [o for o in orders.values() if o.get("user_id") == user_id and o.get("status") != "paid"]
     if not candidates:
         return None
     return sorted(candidates, key=lambda o: o.get("created_at", ""))[-1]
+
+
+def find_latest_order_for_user(user_id: int) -> dict | None:
+    """Latest order of this user (even if already paid) — used to tag incoming buyer messages."""
+    orders = _read(ORDERS_FILE, {})
+    candidates = [o for o in orders.values() if o.get("user_id") == user_id]
+    if not candidates:
+        return None
+    return sorted(candidates, key=lambda o: o.get("created_at", ""))[-1]
+
+
+def find_orders_due_for_followup(days: float = 60.0) -> list[dict]:
+    """Finds paid orders with a linked Telegram chat_id where `days` have passed since paid_at."""
+    orders = _read(ORDERS_FILE, {})
+    now = datetime.now(timezone.utc)
+    due = []
+    for o in orders.values():
+        if o.get("status") != "paid" or o.get("followup_sent") or not o.get("chat_id"):
+            continue
+        ts_str = o.get("paid_at") or o.get("created_at")
+        if not ts_str:
+            continue
+        try:
+            paid_dt = datetime.fromisoformat(ts_str)
+            if paid_dt.tzinfo is None:
+                paid_dt = paid_dt.replace(tzinfo=timezone.utc)
+            elapsed_days = (now - paid_dt).total_seconds() / 86400.0
+            if elapsed_days >= days:
+                due.append(o)
+        except Exception:
+            continue
+    return due
 
 
 def order_total(order: dict) -> int:
@@ -153,4 +198,7 @@ def order_total(order: dict) -> int:
 
 def link_buyer(order_id: str, user_id: int, chat_id: int, lang: str):
     """Bind a website order to the buyer's Telegram chat (via the /start order_<id>_<token> deep link)."""
-    return update_order(order_id, user_id=user_id, chat_id=chat_id, lang=lang)
+    order = update_order(order_id, user_id=user_id, chat_id=chat_id, lang=lang)
+    if order and order.get("admin_order_msg_id"):
+        save_relay(order.get("source", "website"), order["admin_order_msg_id"], chat_id)
+    return order

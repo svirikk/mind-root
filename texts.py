@@ -22,8 +22,9 @@ T = {
     "welcome": (
         "Hi! I'm Bogdan, the Mind Root order bot 🍄\n\n"
         "Tap a product below to order, or \"Learn more\" for details.\n"
-        "🚚 Free delivery across Georgia on every order!\n"
-        "💳 Payment by bank transfer (TBC / BOG) or Crypto (USDT).\n\nHappy shopping!"
+        "🚚 Free delivery across Georgia via *Inex Group* on every order!\n"
+        "💳 Payment by bank transfer (TBC / BOG) or Crypto (USDT).\n"
+        "💬 Have a question? Just write a message right here anytime — I'll pass it straight to the founder and reply here!"
     ),
     "name": {"mane": "Lion's Mane", "cord": "Cordyceps", "bundle": "Dual Complex (Lion's Mane + Cordyceps)"},
     "tagline": {
@@ -113,11 +114,17 @@ T = {
         "payment confirmation for order #{order_id}?"
     ),
     "paid_confirmed": (
-        "Payment confirmed! ✅\n\nThank you for your order, it's now being processed and will be shipped soon.\n"
-        "Estimated delivery: 1–3 days 🚚"
+        "Payment confirmed! ✅\n\nThank you for your order, it's now being processed and will be shipped soon via Inex Group.\n"
+        "Estimated delivery: 1–3 days 🚚\n\n"
+        "💬 If you ever have any questions, just write a message right here anytime!"
     ),
-    "screenshot_received": "Got it! We'll check your payment and confirm shortly 🙏",
-    "question_forwarded": "Thanks, your message has been sent — we'll get back to you shortly 🙂",
+    "screenshot_received": "Got it! We'll check your payment and confirm shortly 🙏\nIf you want to add anything, just write a message here anytime.",
+    "question_forwarded": "Thanks, your message has been sent — we'll reply to you right here shortly 🙂",
+    "course_ending": (
+        "Hi! 🍄 It's been 60 days since your Mind Root order (#{order_id}), which means your 2-month course is coming to an end.\n\n"
+        "Would you like to reorder and continue your daily rhythm? As a thank-you for being with us, we're gifting you an *extra {discount}% discount* on your next order (even on top of the Dual Complex bundle!).\n\n"
+        "🎁 Just reply to this message with code *ROOT{discount}* or tap /start to choose your products, and we'll apply your personal discount!"
+    ),
 },
 
 "uk": {
@@ -125,8 +132,9 @@ T = {
     "welcome": (
         "Привіт! Я — Богдан, бот замовлень Mind Root 🍄\n\n"
         "Тисніть на товар, щоб замовити, або «Дізнатися більше» для деталей.\n"
-        "🚚 Безкоштовна доставка по всій Грузії на кожне замовлення!\n"
-        "💳 Оплата на рахунок (TBC / BOG) або Криптою (USDT).\n\nПриємних покупок!"
+        "🚚 Безкоштовна доставка по всій Грузії через *Inex Group* на кожне замовлення!\n"
+        "💳 Оплата на рахунок (TBC / BOG) або Криптою (USDT).\n"
+        "💬 Маєте запитання? Просто напишіть повідомлення прямо сюди в чат у будь-який момент — ми завжди на зв'язку!"
     ),
     "name": {"mane": "Lion's Mane", "cord": "Cordyceps", "bundle": "Dual Complex (Lion's Mane + Cordyceps)"},
     "tagline": {
@@ -211,11 +219,17 @@ T = {
         "Хм, ми ще не бачимо оплату або скриншот некоректний 🤔 Надішліть, будь ласка, чіткий скриншот оплати для замовлення #{order_id}"
     ),
     "paid_confirmed": (
-        "Оплату підтверджено! ✅\n\nДякуємо за замовлення, воно вже в обробці та скоро буде відправлене.\n"
-        "Орієнтовна доставка: 1–3 дні 🚚"
+        "Оплату підтверджено! ✅\n\nДякуємо за замовлення, воно вже в обробці та скоро буде відправлене через Inex Group.\n"
+        "Орієнтовна доставка: 1–3 дні 🚚\n\n"
+        "💬 Якщо у вас виникнуть будь-які питання — просто напишіть сюди в чат у будь-який час!"
     ),
-    "screenshot_received": "Отримали! Перевіримо оплату і скоро підтвердимо 🙏",
-    "question_forwarded": "Дякуємо, повідомлення надіслано — скоро відповімо 🙂",
+    "screenshot_received": "Отримали! Перевіримо оплату і скоро підтвердимо 🙏\nЯкщо захочете щось уточнити чи додати — просто напишіть сюди в чат.",
+    "question_forwarded": "Дякуємо, ваше повідомлення передано — скоро відповімо прямо сюди в чат 🙂",
+    "course_ending": (
+        "Привіт! 🍄 Минуло 60 днів з моменту вашого замовлення Mind Root (#{order_id}), а отже ваш 2-місячний курс добігає кінця.\n\n"
+        "Чи не бажаєте зробити нове замовлення та продовжити свій курс? Як подяку за довіру, ми даруємо вам *додаткову знижку {discount}%* на наступну покупку (вона діє навіть поверх знижки на набір Dual Complex!).\n\n"
+        "🎁 Просто напишіть у відповідь код *ROOT{discount}* сюди в чат або натисніть /start для вибору товару, і ми активуємо вашу персональну знижку!"
+    ),
 },
 
 "ru": {
@@ -223,8 +237,9 @@ T = {
     "welcome": (
         "Привет! Я — Богдан, бот заказов Mind Root 🍄\n\n"
         "Нажмите на товар для заказа или «Узнать больше» для подробностей.\n"
-        "🚚 Бесплатная доставка по всей Грузии на каждый заказ!\n"
-        "💳 Оплата переводом (TBC / BOG) или Криптой (USDT).\n\nПриятных покупок!"
+        "🚚 Бесплатная доставка по всей Грузии через *Inex Group* на каждый заказ!\n"
+        "💳 Оплата переводом (TBC / BOG) или Криптой (USDT).\n"
+        "💬 Есть вопрос? Просто напишите сообщение прямо сюда в чат в любой момент — мы всегда на связи!"
     ),
     "name": {"mane": "Lion's Mane", "cord": "Cordyceps", "bundle": "Dual Complex (Lion's Mane + Cordyceps)"},
     "tagline": {
@@ -309,11 +324,17 @@ T = {
         "Хм, мы ещё не видим оплату или скриншот некорректен 🤔 Пришлите, пожалуйста, чёткий скриншот оплаты для заказа #{order_id}"
     ),
     "paid_confirmed": (
-        "Оплата подтверждена! ✅\n\nСпасибо за заказ, он уже в обработке и скоро будет отправлен.\n"
-        "Ориентировочная доставка: 1–3 дня 🚚"
+        "Оплата подтверждена! ✅\n\nСпасибо за заказ, он уже в обработке и скоро будет отправлен через Inex Group.\n"
+        "Ориентировочная доставка: 1–3 дня 🚚\n\n"
+        "💬 Если у вас появятся любые вопросы — просто напишите сюда в чат в любое время!"
     ),
-    "screenshot_received": "Получили! Проверим оплату и скоро подтвердим 🙏",
-    "question_forwarded": "Спасибо, сообщение отправлено — скоро ответим 🙂",
+    "screenshot_received": "Получили! Проверим оплату и скоро подтвердим 🙏\nЕсли захотите что-то уточнить — просто напишите сюда в чат.",
+    "question_forwarded": "Спасибо, ваше сообщение передано — скоро ответим прямо сюда в чат 🙂",
+    "course_ending": (
+        "Привет! 🍄 Прошло 60 дней с момента вашего заказа Mind Root (#{order_id}), а значит ваш 2-месячный курс подходит к концу.\n\n"
+        "Не хотите ли оформить новый заказ и продолжить курс? В благодарность за доверие мы дарим вам *дополнительную скидку {discount}%* на следующую покупку (она действует даже поверх скидки на набор Dual Complex!).\n\n"
+        "🎁 Просто напишите в ответ код *ROOT{discount}* сюда в чат или нажмите /start для выбора товара, и мы активируем вашу персональную скидку!"
+    ),
 },
 
 "ka": {
@@ -321,8 +342,9 @@ T = {
     "welcome": (
         "გამარჯობა! მე ბოგდანი ვარ, Mind Root-ის შეკვეთების ბოტი 🍄\n\n"
         "დააჭირეთ პროდუქტს შესაკვეთად, ან „გაიგეთ მეტი“ დეტალებისთვის.\n"
-        "🚚 უფასო მიწოდება მთელ საქართველოში ყველა შეკვეთაზე!\n"
-        "💳 გადახდა საბანკო გადარიცხვით (TBC / BOG) ან კრიპტოვალუტით (USDT).\n\nსასიამოვნო შოპინგს გისურვებთ!"
+        "🚚 უფასო მიწოდება მთელ საქართველოში *Inex Group*-ის მეშვეობით ყველა შეკვეთაზე!\n"
+        "💳 გადახდა საბანკო გადარიცხვით (TBC / BOG) ან კრიპტოვალუტით (USDT).\n"
+        "💬 გაქვთ შეკითხვა? მოგვწერეთ პირდაპირ ამ ჩატში ნებისმიერ დროს!"
     ),
     "name": {"mane": "Lion's Mane", "cord": "Cordyceps", "bundle": "Dual Complex (Lion's Mane + Cordyceps)"},
     "tagline": {
@@ -407,10 +429,16 @@ T = {
         "სქრინშოთი არ ჩანს სწორად 🤔 გთხოვთ გამომიგზავნოთ გადახდის მკაფიო სქრინშოთი შეკვეთისთვის #{order_id}"
     ),
     "paid_confirmed": (
-        "გადახდა დადასტურებულია! ✅\n\nმადლობა შეკვეთისთვის, მალე გამოიგზავნება.\n"
-        "სავარაუდო მიწოდება: 1–3 დღე 🚚"
+        "გადახდა დადასტურებულია! ✅\n\nმადლობა შეკვეთისთვის, მალე გამოიგზავნება Inex Group-ის მეშვეობით.\n"
+        "სავარაუდო მიწოდება: 1–3 დღე 🚚\n\n"
+        "💬 თუ რაიმე შეკითხვა გექნებათ — მოგვწერეთ პირდაპირ ამ ჩატში ნებისმიერ დროს!"
     ),
-    "screenshot_received": "მივიღეთ! შევამოწმებთ გადახდას და მალე დავადასტურებთ 🙏",
-    "question_forwarded": "მადლობა, შეტყობინება გაგზავნილია — მალე დაგიკავშირდებით 🙂",
+    "screenshot_received": "მივიღეთ! შევამოწმებთ გადახდას და მალე დავადასტურებთ 🙏\nთუ რაიმეს დამატება გსურთ, მოგვწერეთ პირდაპირ აქ.",
+    "question_forwarded": "მადლობა, შეტყობინება გაგზავნილია — მალე გიპასუხებთ პირდაპირ ამ ჩატში 🙂",
+    "course_ending": (
+        "გამარჯობა! 🍄 გავიდა 60 დღე თქვენი Mind Root-ის შეკვეთიდან (#{order_id}), რაც ნიშნავს, რომ თქვენი 2-თვიანი კურსი სრულდება.\n\n"
+        "გსურთ გაიმეოროთ შეკვეთა? ჩვენ გჩუქნით *დამატებით {discount}% ფასდაკლებას* შემდეგ შენაძენზე (მოქმედებს Dual Complex-ის ფასდაკლებაზეც!).\n\n"
+        "🎁 უბრალოდ მოგვწერეთ კოდი *ROOT{discount}* ამ ჩატში ან დააჭირეთ /start-ს პროდუქტის ასარჩევად!"
+    ),
 },
 }
