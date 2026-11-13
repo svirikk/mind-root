@@ -1,5 +1,5 @@
 window.SITE = {
-  gaId: "",
+  gaId: "G-0P9SECPDY8",
 
   // Твій PNG логотип без фону
   logo: "/assets/img/logo.png",
