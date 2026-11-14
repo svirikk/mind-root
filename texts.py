@@ -12,7 +12,7 @@ LANGS = ["en", "uk", "ru", "ka"]
 LANG_BUTTON_LABELS = {
     "en": "🇬🇧 English",
     "uk": "🇺🇦 Українська",
-    "ru": "🇷🇺 Русский",
+    "ru": "Русский",
     "ka": "🇬🇪 ქართული",
 }
 
