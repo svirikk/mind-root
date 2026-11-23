@@ -20,7 +20,7 @@ T = {
 "en": {
     "choose_lang": "Please select your language:",
     "welcome": (
-        "Hi! I'm Bogdan, the Mind Root order bot 🍄\n\n"
+        "Hi! I'm Mind Root order bot 🍄‍🟫\n\n"
         "Tap a product below to order, or \"Learn more\" for details.\n"
         "🚚 Free delivery across Georgia via *Inex Group* on every order!\n"
         "💳 Payment by bank transfer (TBC / BOG) or Crypto (USDT).\n"
@@ -129,7 +129,7 @@ T = {
 "uk": {
     "choose_lang": "Будь ласка, оберіть мову / Please select your language:",
     "welcome": (
-        "Привіт! Я — Богдан, бот замовлень Mind Root 🍄\n\n"
+        "Привіт! Я — бот замовлень Mind Root 🍄‍🟫\n\n"
         "Тисніть на товар, щоб замовити, або «Дізнатися більше» для деталей.\n"
         "🚚 Безкоштовна доставка по всій Грузії через *Inex Group* на кожне замовлення!\n"
         "💳 Оплата на рахунок (TBC / BOG) або Криптою (USDT).\n"
@@ -233,7 +233,7 @@ T = {
 "ru": {
     "choose_lang": "Пожалуйста, выберите язык:",
     "welcome": (
-        "Привет! Я — Богдан, бот заказов Mind Root 🍄\n\n"
+        "Привет! Я — бот заказов Mind Root 🍄‍🟫\n\n"
         "Нажмите на товар для заказа или «Узнать больше» для подробностей.\n"
         "🚚 Бесплатная доставка по всей Грузии через *Inex Group* на каждый заказ!\n"
         "💳 Оплата переводом (TBC / BOG) или Криптой (USDT).\n"
@@ -337,7 +337,7 @@ T = {
 "ka": {
     "choose_lang": "გთხოვთ აირჩიოთ ენა:",
     "welcome": (
-        "გამარჯობა! მე ბოგდანი ვარ, Mind Root-ის შეკვეთების ბოტი 🍄\n\n"
+        "გამარჯობა! მე ვარ, Mind Root-ის შეკვეთების ბოტი 🍄‍🟫\n\n"
         "დააჭირეთ პროდუქტს შესაკვეთად, ან „გაიგეთ მეტი“ დეტალებისთვის.\n"
         "🚚 უფასო მიწოდება მთელ საქართველოში *Inex Group*-ის მეშვეობით ყველა შეკვეთაზე!\n"
         "💳 გადახდა საბანკო გადარიცხვით (TBC / BOG) ან კრიპტოვალუტით (USDT).\n"
