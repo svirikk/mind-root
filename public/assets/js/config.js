@@ -5,12 +5,12 @@ window.SITE = {
   logo: "/assets/img/logo.png",
 
   contact: {
-    email: "[hello@your-domain.ge]",
-    phone: "[+995 5XX XX XX XX]",
+    email: "support.mindroot@gmail.com",
+    phone: "+995 595 01 86 47",
     instagramHandle: "@mindroot.ge",
     instagramUrl: "https://instagram.com/mindroot.ge",
-    telegramHandle: "[@your_telegram]",
-    telegramUrl: "",
+    telegramHandle: "@mindrootge",
+    telegramUrl: "https://t.me/mindrootge",
     place: "Batumi, Georgia"
   },
   delivery: { feeGel: 0, daysMin: 1, daysMax: 3 },
