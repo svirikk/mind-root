@@ -15,7 +15,7 @@ en: {
   hero_title: "Nature. <em>In Your Daily Rhythm.</em>",
   hero_sub: "Discover functional mushrooms for your everyday routine.",
   hero_cta1: "Explore Products", hero_cta2: "Discover Mind Root",
-  trust1: "Transparent ingredients", trust2: "Quality documents on request", trust3: "Free delivery across Georgia",
+  trust1: "Transparent ingredients", trust2: "TBC / BOG / USDT payment", trust3: "Free delivery across Georgia",
   hero_tag: "Dual Complex — both bottles, <b>128 ₾</b>",
 
   prod_title: "Two extracts. One simple routine.",
@@ -117,7 +117,7 @@ uk: {
   hero_title: "Природа. <em>У вашому щоденному ритмі.</em>",
   hero_sub: "Функціональні гриби для вашої щоденної рутини.",
   hero_cta1: "Обрати продукти", hero_cta2: "Про Mind Root",
-  trust1: "Прозорий склад", trust2: "Документи якості за запитом", trust3: "Безкоштовна доставка по Грузії",
+  trust1: "Прозорий склад", trust2: "Оплата TBC / BOG / USDT", trust3: "Безкоштовна доставка по Грузії",
   hero_tag: "Dual Complex — обидві баночки, <b>128 ₾</b>",
 
   prod_title: "Два екстракти. Одна проста рутина.",
@@ -219,7 +219,7 @@ ru: {
   hero_title: "Природа. <em>В вашем ежедневном ритме.</em>",
   hero_sub: "Функциональные грибы для вашей ежедневной рутины.",
   hero_cta1: "Выбрать продукты", hero_cta2: "О Mind Root",
-  trust1: "Прозрачный состав", trust2: "Документы качества по запросу", trust3: "Бесплатная доставка по Грузии",
+  trust1: "Прозрачный состав", trust2: "Оплата TBC / BOG / USDT", trust3: "Бесплатная доставка по Грузии",
   hero_tag: "Dual Complex — обе баночки, <b>128 ₾</b>",
 
   prod_title: "Два экстракта. Одна простая рутина.",
@@ -321,7 +321,7 @@ ka: {
   hero_title: "ბუნება. <em>თქვენს ყოველდღიურ რიტმში.</em>",
   hero_sub: "აღმოაჩინეთ ფუნქციური სოკოები თქვენი ყოველდღიური რუტინისთვის.",
   hero_cta1: "პროდუქტების ნახვა", hero_cta2: "გაიცანით Mind Root",
-  trust1: "გამჭვირვალე შემადგენლობა", trust2: "ხარისხის დოკუმენტები მოთხოვნით", trust3: "უფასო მიწოდება მთელ საქართველოში",
+  trust1: "გამჭვირვალე შემადგენლობა", trust2: "გადახდა TBC / BOG / USDT", trust3: "უფასო მიწოდება მთელ საქართველოში",
   hero_tag: "Dual Complex — ორივე ქილა, <b>128 ₾</b>",
 
   prod_title: "ორი ექსტრაქტი. ერთი მარტივი რუტინა.",
