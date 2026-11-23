@@ -27,7 +27,7 @@ en: {
   cord_desc: "Cordyceps militaris fruiting-body extract (8:1). A traditional functional mushroom valued for energy and stamina.",
   dual_name: "Dual Complex",
   dual_desc: "One Lion's Mane and one Cordyceps bottle, together. The same two products as above, sold as a set.",
-  bundle_note: "Counts as two bottles. The 20% is applied once, never twice.",
+  bundle_note: "Two extracts — one complete solution for your daily routine.",
 
   d_title: "Product details",
   d_inside: "What's inside", d_serving: "Serving information", d_docs: "Quality documents", d_storage: "Storage",
@@ -129,7 +129,7 @@ uk: {
   cord_desc: "Екстракт плодового тіла Cordyceps militaris (8:1). Традиційний функціональний гриб, який цінують за енергію та витривалість.",
   dual_name: "Dual Complex",
   dual_desc: "Одна баночка Lion's Mane і одна Cordyceps разом. Це ті самі два продукти, що вище, — у вигляді набору.",
-  bundle_note: "Рахується як дві баночки. Знижка 20% діє один раз, а не двічі.",
+  bundle_note: "Два продукти — одне комплексне рішення для вашого щоденного раціону.",
 
   d_title: "Про продукти",
   d_inside: "Склад", d_serving: "Порція", d_docs: "Документи якості", d_storage: "Зберігання",
@@ -231,7 +231,7 @@ ru: {
   cord_desc: "Экстракт плодового тела Cordyceps militaris (8:1). Традиционный функциональный гриб, который ценят за энергию и выносливость.",
   dual_name: "Dual Complex",
   dual_desc: "Одна баночка Lion's Mane и одна Cordyceps вместе. Те же два продукта, что и выше, в виде набора.",
-  bundle_note: "Считается как две баночки. Скидка 20% действует один раз, а не дважды.",
+  bundle_note: "Два продукта — одно комплексное решение для вашего ежедневного рациона.",
 
   d_title: "О продуктах",
   d_inside: "Состав", d_serving: "Порция", d_docs: "Документы качества", d_storage: "Хранение",
@@ -333,7 +333,7 @@ ka: {
   cord_desc: "Cordyceps militaris-ის ნაყოფსხეულის ექსტრაქტი (8:1). ტრადიციული ფუნქციური სოკო, რომელიც ფასობს ენერგიისა და გამძლეობისთვის.",
   dual_name: "Dual Complex",
   dual_desc: "ერთი Lion's Mane და ერთი Cordyceps ქილა ერთად. იგივე ორი პროდუქტი, კომპლექტად.",
-  bundle_note: "ითვლება ორ ქილად. 20% გამოიყენება ერთხელ და არა ორჯერ.",
+  bundle_note: "ორი პროდუქტი — ერთი კომპლექსური გადაწყვეტილება თქვენი ყოველდღიური რაციონისთვის.",
 
   d_title: "პროდუქტის დეტალები",
   d_inside: "შემადგენლობა", d_serving: "ულუფა", d_docs: "ხარისხის დოკუმენტები", d_storage: "შენახვა",
