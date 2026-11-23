@@ -157,7 +157,7 @@ async def forward_buyer_text_to_admin(message: Message):
 
 
 async def retention_loop():
-    """Background task: checks every 6 hours for paid orders that reached 60 days."""
+    """Background task: checks every 6 hours for paid orders that reached the follow-up period."""
     await asyncio.sleep(15)
     while True:
         try:
@@ -166,7 +166,6 @@ async def retention_loop():
                 lang = o.get("lang") if o.get("lang") in T else "uk"
                 text = T[lang]["course_ending"].format(
                     order_id=o["id"],
-                    discount=RETENTION_DISCOUNT,
                 )
                 try:
                     await bot.send_message(
@@ -179,13 +178,13 @@ async def retention_loop():
                     a_bot, a_chat = admin_target(o.get("source", "telegram"))
                     await a_bot.send_message(
                         a_chat,
-                        f"🔔 60-day retention reminder (+{RETENTION_DISCOUNT}% discount code ROOT{RETENTION_DISCOUNT}) "
-                        f"was automatically sent to buyer of <b>Order #{html.escape(str(o['id']))}</b>.",
+                        f"🔔 Follow-up reminder ({int(RETENTION_DAYS)} days) was automatically sent "
+                        f"to buyer of <b>Order #{html.escape(str(o['id']))}</b>.",
                         parse_mode="HTML",
                         reply_to_message_id=o.get("admin_order_msg_id"),
                     )
                 except Exception:
-                    log.exception("Failed to send 60-day retention message for order %s", o.get("id"))
+                    log.exception("Failed to send follow-up message for order %s", o.get("id"))
                     storage.update_order(o["id"], followup_sent=True)
         except asyncio.CancelledError:
             raise
