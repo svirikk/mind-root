@@ -121,9 +121,8 @@ T = {
     "screenshot_received": "Got it! We'll check your payment and confirm shortly 🙏\nIf you want to add anything, just write a message here anytime.",
     "question_forwarded": "Thanks, your message has been sent — we'll reply to you right here shortly 🙂",
     "course_ending": (
-        "Hi! 🍄 It's been 60 days since your Mind Root order (#{order_id}), which means your 2-month course is coming to an end.\n\n"
-        "Would you like to reorder and continue your daily rhythm? As a thank-you for being with us, we're gifting you an *extra {discount}% discount* on your next order (even on top of the Dual Complex bundle!).\n\n"
-        "🎁 Just reply to this message with code *ROOT{discount}* or tap /start to choose your products, and we'll apply your personal discount!"
+        "Hi! 🍄 It's been over two months since your Mind Root order (#{order_id}), so your course is likely wrapping up or finished.\n\n"
+        "If you'd like to restock and keep up your daily routine, just tap /start or send a message right here — we're always happy to help 🙂"
     ),
 },
 
@@ -226,9 +225,8 @@ T = {
     "screenshot_received": "Отримали! Перевіримо оплату і скоро підтвердимо 🙏\nЯкщо захочете щось уточнити чи додати — просто напишіть сюди в чат.",
     "question_forwarded": "Дякуємо, ваше повідомлення передано — скоро відповімо прямо сюди в чат 🙂",
     "course_ending": (
-        "Привіт! 🍄 Минуло 60 днів з моменту вашого замовлення Mind Root (#{order_id}), а отже ваш 2-місячний курс добігає кінця.\n\n"
-        "Чи не бажаєте зробити нове замовлення та продовжити свій курс? Як подяку за довіру, ми даруємо вам *додаткову знижку {discount}%* на наступну покупку (вона діє навіть поверх знижки на набір Dual Complex!).\n\n"
-        "🎁 Просто напишіть у відповідь код *ROOT{discount}* сюди в чат або натисніть /start для вибору товару, і ми активуємо вашу персональну знижку!"
+        "Привіт! 🍄 Минуло вже трохи більше двох місяців з моменту вашого замовлення Mind Root (#{order_id}), тож курс, ймовірно, вже добігає кінця або завершився.\n\n"
+        "Якщо захочете поновити запас і продовжити свій щоденний ритм — просто натисніть /start або напишіть сюди в чат, ми завжди раді допомогти 🙂"
     ),
 },
 
@@ -331,9 +329,8 @@ T = {
     "screenshot_received": "Получили! Проверим оплату и скоро подтвердим 🙏\nЕсли захотите что-то уточнить — просто напишите сюда в чат.",
     "question_forwarded": "Спасибо, ваше сообщение передано — скоро ответим прямо сюда в чат 🙂",
     "course_ending": (
-        "Привет! 🍄 Прошло 60 дней с момента вашего заказа Mind Root (#{order_id}), а значит ваш 2-месячный курс подходит к концу.\n\n"
-        "Не хотите ли оформить новый заказ и продолжить курс? В благодарность за доверие мы дарим вам *дополнительную скидку {discount}%* на следующую покупку (она действует даже поверх скидки на набор Dual Complex!).\n\n"
-        "🎁 Просто напишите в ответ код *ROOT{discount}* сюда в чат или нажмите /start для выбора товара, и мы активируем вашу персональную скидку!"
+        "Привет! 🍄 Прошло уже чуть больше двух месяцев с момента вашего заказа Mind Root (#{order_id}), так что курс, вероятно, уже подходит к концу или завершился.\n\n"
+        "Если захотите пополнить запас и продолжить привычный ритм — просто нажмите /start или напишите сюда в чат, будем рады помочь 🙂"
     ),
 },
 
@@ -436,9 +433,8 @@ T = {
     "screenshot_received": "მივიღეთ! შევამოწმებთ გადახდას და მალე დავადასტურებთ 🙏\nთუ რაიმეს დამატება გსურთ, მოგვწერეთ პირდაპირ აქ.",
     "question_forwarded": "მადლობა, შეტყობინება გაგზავნილია — მალე გიპასუხებთ პირდაპირ ამ ჩატში 🙂",
     "course_ending": (
-        "გამარჯობა! 🍄 გავიდა 60 დღე თქვენი Mind Root-ის შეკვეთიდან (#{order_id}), რაც ნიშნავს, რომ თქვენი 2-თვიანი კურსი სრულდება.\n\n"
-        "გსურთ გაიმეოროთ შეკვეთა? ჩვენ გჩუქნით *დამატებით {discount}% ფასდაკლებას* შემდეგ შენაძენზე (მოქმედებს Dual Complex-ის ფასდაკლებაზეც!).\n\n"
-        "🎁 უბრალოდ მოგვწერეთ კოდი *ROOT{discount}* ამ ჩატში ან დააჭირეთ /start-ს პროდუქტის ასარჩევად!"
+        "გამარჯობა! 🍄 Mind Root-ის თქვენი შეკვეთიდან (#{order_id}) უკვე ორ თვეზე მეტი გავიდა, ამიტომ კურსი სავარაუდოდ სრულდება ან დასრულდა.\n\n"
+        "თუ კვლავ დაგჭირდებათ მარაგის შევსება, უბრალოდ დააჭირეთ /start-ს ან მოგვწერეთ აქვე — სიამოვნებით დაგეხმარებით 🙂"
     ),
 },
 }
