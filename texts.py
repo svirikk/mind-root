@@ -24,7 +24,7 @@ T = {
         "Tap a product below to order, or \"Learn more\" for details.\n"
         "🚚 Free delivery across Georgia via *Inex Group* on every order!\n"
         "💳 Payment by bank transfer (TBC / BOG) or Crypto (USDT).\n"
-        "💬 Have a question? Just write a message right here anytime — I'll pass it straight to the founder and reply here!"
+        "💬 Have a question? Just write a message right here (or admin @mindrootge) anytime — I'll pass it straight to the founder and reply here!"
     ),
     "name": {"mane": "Lion's Mane", "cord": "Cordyceps", "bundle": "Dual Complex (Lion's Mane + Cordyceps)"},
     "tagline": {
@@ -133,7 +133,7 @@ T = {
         "Тисніть на товар, щоб замовити, або «Дізнатися більше» для деталей.\n"
         "🚚 Безкоштовна доставка по всій Грузії через *Inex Group* на кожне замовлення!\n"
         "💳 Оплата на рахунок (TBC / BOG) або Криптою (USDT).\n"
-        "💬 Маєте запитання? Просто напишіть повідомлення прямо сюди в чат у будь-який момент — ми завжди на зв'язку!"
+        "💬 Маєте запитання? Просто напишіть повідомлення прямо сюди в чат (або адміну @mindrootge) у будь-який момент — ми завжди на зв'язку!"
     ),
     "name": {"mane": "Lion's Mane", "cord": "Cordyceps", "bundle": "Dual Complex (Lion's Mane + Cordyceps)"},
     "tagline": {
@@ -237,7 +237,7 @@ T = {
         "Нажмите на товар для заказа или «Узнать больше» для подробностей.\n"
         "🚚 Бесплатная доставка по всей Грузии через *Inex Group* на каждый заказ!\n"
         "💳 Оплата переводом (TBC / BOG) или Криптой (USDT).\n"
-        "💬 Есть вопрос? Просто напишите сообщение прямо сюда в чат в любой момент — мы всегда на связи!"
+        "💬 Есть вопрос? Просто напишите сообщение прямо сюда в чат (или админу @mindrootge) в любой момент — мы всегда на связи!"
     ),
     "name": {"mane": "Lion's Mane", "cord": "Cordyceps", "bundle": "Dual Complex (Lion's Mane + Cordyceps)"},
     "tagline": {
@@ -428,7 +428,7 @@ T = {
     "paid_confirmed": (
         "გადახდა დადასტურებულია! ✅\n\nმადლობა შეკვეთისთვის, მალე გამოიგზავნება Inex Group-ის მეშვეობით.\n"
         "სავარაუდო მიწოდება: 1–3 დღე 🚚\n\n"
-        "💬 თუ რაიმე შეკითხვა გექნებათ — მოგვწერეთ პირდაპირ ამ ჩატში ნებისმიერ დროს!"
+        "💬 თუ რაიმე შეკითხვა გექნებათ — მოგვწერეთ პირდაპირ ამ ჩატში (ან ადმინისტრატორი @mindrootge) ნებისმიერ დროს!"
     ),
     "screenshot_received": "მივიღეთ! შევამოწმებთ გადახდას და მალე დავადასტურებთ 🙏\nთუ რაიმეს დამატება გსურთ, მოგვწერეთ პირდაპირ აქ.",
     "question_forwarded": "მადლობა, შეტყობინება გაგზავნილია — მალე გიპასუხებთ პირდაპირ ამ ჩატში 🙂",
