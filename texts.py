@@ -10,10 +10,10 @@ PRODUCTS = {
 LANGS = ["en", "uk", "ru", "ka"]
 
 LANG_BUTTON_LABELS = {
-    "en": "🇬🇧 English",
-    "uk": "🇺🇦 Українська",
+    "en": "English",
+    "uk": "Українська",
     "ru": "Русский",
-    "ka": "🇬🇪 ქართული",
+    "ka": "ქართული",
 }
 
 T = {
